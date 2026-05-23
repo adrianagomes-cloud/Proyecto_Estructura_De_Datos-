@@ -1,5 +1,5 @@
 
-public class Neurotransmisor {
+public class Neuronas {
     private String id;
     private String nombre;
     private String efecto;
@@ -7,7 +7,7 @@ public class Neurotransmisor {
     private String descripcion;
 
     // Constructor
-    public Neurotransmisor(String id, String nombre, String efecto, double velocidad, String descripcion) {
+    public Neuronas(String id, String nombre, String efecto, double velocidad, String descripcion) {
         this.id = id;
         this.nombre = nombre;
         this.efecto = efecto;
