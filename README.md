@@ -4,7 +4,3 @@ la transmisión de señales eléctricas bajodiversas condiciones químicas.
 
 
 Adriana Gomes V31228396
-
-Sebastian Mendez V29965751
-
-Samuel Hernandez V32235755
