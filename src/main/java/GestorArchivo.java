@@ -3,8 +3,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * Clase encargada de la lectura de archivos CSV 
- *
+ * Clase encargada de la lectura de archivos CSV para el control clínico neuronal.
  */
 public class GestorArchivo {
 
@@ -12,10 +11,10 @@ public class GestorArchivo {
      * Lee el CSV de neurotransmisores y los almacena en el diccionario hash.
      * @param rutaArchivo Ruta del archivo CSV
      * @param diccionario Diccionario donde se guardarán los neurotransmisores.
+     * @return boolean true si la carga fue exitosa, false en caso de error.
      */
-    public void cargarNeurotransmisores(String rutaArchivo, DiccionarioHash diccionario) {
+    public static boolean cargarNeurotransmisores(String rutaArchivo, DiccionarioHash diccionario) {
         String linea;
-        // Separador común en archivos CSV, puede cambiarse a ";" si tu archivo usa punto y coma
         String separador = ","; 
 
         try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
@@ -23,10 +22,9 @@ public class GestorArchivo {
             String encabezado = br.readLine(); 
 
             while ((linea = br.readLine()) != null) {
-                // Separar la línea por comas
                 String[] datos = linea.split(separador);
                 
-                // Validación básica de estructura para evitar caídas si faltan columnas
+                // Validación básica de estructura 
                 if (datos.length >= 4) {
                     String id = datos[0].trim();
                     String nombre = datos[1].trim();
@@ -42,54 +40,61 @@ public class GestorArchivo {
                 }
             }
             System.out.println("¡Neurotransmisores cargados exitosamente!");
+            return true;
             
         } catch (IOException e) {
             System.err.println("Error al leer el archivo de neurotransmisores: " + e.getMessage());
+            return false;
         } catch (NumberFormatException e) {
             System.err.println("Error de formato numérico en la velocidad: " + e.getMessage());
+            return false;
         }
     }
 
     /**
-     * Lee el CSV de conexiones sinápticas y construye el grafo neuronal
+     * Lee el CSV de conexiones sinápticas y construye el grafo neuronal de forma estática.
      * @param rutaArchivo Ruta del archivo CSV de conexiones
      * @param grafo El grafo maestro donde se insertarán las neuronas y conexiones
-     * @param diccionario El diccionario hash previamente cargado
+     * @param diccionarioNT El diccionario hash previamente cargado para validar la química
+     * @return boolean true si la carga fue exitosa, false en caso de error.
      */
-    public void cargarRedNeuronal(String rutaArchivo, GrafoNeuronal grafo, DiccionarioHash diccionario) {
+    public static boolean cargarRedNeuronal(String rutaArchivo, GrafoNeuronal grafo, DiccionarioHash diccionarioNT) {
         String linea;
-        String separador = ",";
+        String separador = ","; 
 
         try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
-            // Omitir la línea de encabezados
+            // Omitir la primera línea si contiene los encabezados del CSV
             String encabezado = br.readLine();
 
             while ((linea = br.readLine()) != null) {
                 String[] datos = linea.split(separador);
 
+                // Validación básica de que vengan las columnas necesarias
                 if (datos.length >= 4) {
-                    String idOrigen = datos[0].trim();
-                    String idDestino = datos[1].trim();
+                    String origen = datos[0].trim();
+                    String destino = datos[1].trim();
                     double distancia = Double.parseDouble(datos[2].trim());
                     String idNeurotransmisor = datos[3].trim();
 
-                    // Buscar el objeto químico en tu tabla hash en O(1)
-                    Neurotransmisor nt = diccionario.buscar(idNeurotransmisor);
+                    // Buscamos el neurotransmisor en el Diccionario Hash cargado previamente
+                    Neurotransmisor nt = diccionarioNT.buscar(idNeurotransmisor);
 
-                    if (nt == null) {
-                        System.out.println("Advertencia: Neurotransmisor '" + idNeurotransmisor + "' no encontrado en el diccionario. Se usará una sinapsis básica.");
+                    // Conectamos las neuronas utilizando tu lógica estructurada del grafo
+                    if (nt != null) {
+                        grafo.conectarNeuronas(origen, destino, distancia, nt);
+                    } else {
+                        System.out.println("Advertencia: Neurotransmisor " + idNeurotransmisor + " no encontrado en el diccionario.");
+                        // Opcional: conectar con null o neurotransmisor básico si tu lógica lo permite
+                        grafo.conectarNeuronas(origen, destino, distancia, null);
                     }
-
-                    // Conectar las neuronas en el grafo
-                    grafo.conectarNeuronas(idOrigen, idDestino, distancia, nt);
                 }
             }
             System.out.println("¡Red neuronal cargada y estructurada exitosamente!");
-         // esto luego se cambiara para que salga por la interfas grafica
-        } catch (IOException e) {
-            System.err.println("Error al leer el archivo de la red neuronal: " + e.getMessage());
-        } catch (NumberFormatException e) {
-            System.err.println("Error de formato numérico en las distancias de sinapsis: " + e.getMessage());
+            return true; // Carga exitosa
+            
+        } catch (Exception e) {
+            System.out.println("Error al cargar la red neuronal: " + e.getMessage());
+            return false; // Hubo un fallo en la lectura
         }
     }
 }
