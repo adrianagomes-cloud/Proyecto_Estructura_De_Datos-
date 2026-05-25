@@ -34,6 +34,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
@@ -46,9 +49,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtResultados = new javax.swing.JTextArea();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 20)); // NOI18N
@@ -63,6 +63,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabel6.setText("jLabel6");
 
         jLabel4.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+
+        jMenu1.setText("File");
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -83,7 +89,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jButton2.setText("<html><center>Calcular <br></center> Ruta Optima</html>");
         jButton2.setToolTipText("");
         jButton2.addActionListener(this::jButton2ActionPerformed);
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 90, 140, 60));
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 90, 140, 60));
 
         jButton3.setBackground(new java.awt.Color(255, 255, 255));
         jButton3.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 15)); // NOI18N
@@ -91,7 +97,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jButton3.setText("<html><center>Cargar<br>Neurotransmisores</center></html>");
         jButton3.setActionCommand("Cargarneurotransmisores");
         jButton3.addActionListener(this::jButton3ActionPerformed);
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 330, 140, 60));
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 140, 60));
 
         jButton4.setBackground(new java.awt.Color(255, 255, 255));
         jButton4.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
@@ -99,19 +105,20 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jButton4.setText("<html><center>Cargar Red<br>Neuronal</center></html>");
         jButton4.setActionCommand("Cargar Red Neuronal");
         jButton4.addActionListener(this::jButton4ActionPerformed);
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 280, 140, 60));
+        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 280, 140, 60));
 
         jButton5.setBackground(new java.awt.Color(255, 255, 255));
         jButton5.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jButton5.setForeground(new java.awt.Color(0, 0, 0));
         jButton5.setText("<html><center>Simular<br>Fatiga Global</center></html>");
         jButton5.addActionListener(this::jButton5ActionPerformed);
-        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 140, 60));
+        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 180, 140, 60));
 
         jButton6.setBackground(new java.awt.Color(255, 255, 255));
         jButton6.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jButton6.setForeground(new java.awt.Color(0, 0, 0));
         jButton6.setText("<html><center>Detectar<br>Zonas Aisladas</center></html>");
+        jButton6.addActionListener(this::jButton6ActionPerformed);
         jPanel1.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, 140, 60));
 
         jLabel3.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 26)); // NOI18N
@@ -128,16 +135,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         txtResultados.setRows(5);
         jScrollPane1.setViewportView(txtResultados);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 400, 550, 90));
-
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/17822004 (2).png"))); // NOI18N
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 350, -1, -1));
-
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Captura_de_pantalla_2026-05-23_183836-removebg-preview (2).png"))); // NOI18N
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 90, 290, -1));
-
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/17822004 (2).png"))); // NOI18N
-        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, 550, 90));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 500));
 
@@ -145,10 +143,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 //Boton de Cargar Neurotransmisores 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        //  seleccionar el archivo CSV
+    //  seleccionar el archivo CSV
     javax.swing.JFileChooser selectorArchivo = new javax.swing.JFileChooser();
     selectorArchivo.setDialogTitle("Seleccionar CSV de Neurotransmisores");
-    
+    javax.swing.filechooser.FileNameExtensionFilter filtro = new javax.swing.filechooser.FileNameExtensionFilter("Archivos CSV", "csv");
+    selectorArchivo.setFileFilter(filtro);
+
     int resultado = selectorArchivo.showOpenDialog(this);
     
     if (resultado == javax.swing.JFileChooser.APPROVE_OPTION) {
@@ -240,16 +240,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 //Cargar Red Neuronal
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        if (this.diccionarioHash == null) {
+  if (this.diccionarioHash == null) {
         javax.swing.JOptionPane.showMessageDialog(this, 
             "Error: Primero debe cargar el Diccionario de Neurotransmisores\npara poder validar las conexiones químicas de la red.", 
             "Orden Requerido", javax.swing.JOptionPane.ERROR_MESSAGE);
         return;
     }
 
-    //  Abrir el explorador de archivos para buscar el CSV 
     javax.swing.JFileChooser selectorArchivo = new javax.swing.JFileChooser();
     selectorArchivo.setDialogTitle("Seleccionar CSV de Red Neuronal (Sinapsis)");
+    javax.swing.filechooser.FileNameExtensionFilter filtro = new javax.swing.filechooser.FileNameExtensionFilter("Archivos CSV", "csv");
+    selectorArchivo.setFileFilter(filtro);
     
     int resultado = selectorArchivo.showOpenDialog(this);
     
@@ -257,19 +258,22 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         java.io.File archivoSeleccionado = selectorArchivo.getSelectedFile();
         
         try {
-            // Inicializamos el objeto del grafo global de la ventana principal
             this.grafo = new GrafoNeuronal(); 
-            
-            // Llamamos al método estático GestorArchivo
             boolean exito = GestorArchivo.cargarRedNeuronal(archivoSeleccionado.getAbsolutePath(), this.grafo, this.diccionarioHash);
             
             if (exito) {
                 javax.swing.JOptionPane.showMessageDialog(this, 
                     "MAPA SINÁPTICO CEREBRAL\n\n" +
-                    "Red Neuronal cargada con éxito en la estructura de Grafo.\n" +
-                    "• Estado: Vértices (Neuronas) y Aristas (Sinapsis) inicializados.\n\n" +
-                    "El sistema se encuentra listo para calcular rutas óptimas y simular fatiga.", 
+                    "Red Neuronal cargada con éxito en la estructura de Grafo.", 
                     "Carga Exitosa", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                
+                // --- NUEVO: LLAMADA A LA VISUALIZACIÓN ---
+                // Usamos invokeLater para asegurar que Swing dibuje la ventana correctamente
+                java.awt.EventQueue.invokeLater(() -> {
+                    this.grafo.visualizarGrafo();
+                });
+                // ----------------------------------------
+                
             } else {
                 javax.swing.JOptionPane.showMessageDialog(this, 
                     "Error: El archivo de la red neuronal no pudo ser procesado.", 
@@ -283,6 +287,23 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+                                                       
+    //  Verificación de seguridad
+    if (this.grafo == null) {
+        txtResultados.setText("⚠️ Error: El sistema no detecta una red neuronal cargada. Por favor, cargue la red primero.");
+        return;
+    }
+
+    // 2. Ejecutar el análisis clínico
+    // Estamos llamando directamente al método que corregimos en GrafoNeuronal.java
+    String reporte = this.grafo.obtenerZonasAisladas();
+
+    // 3. Mostrar el reporte en tu área de texto
+    // Asegúrate de que tu JTextArea se llame 'txtResultados'
+    txtResultados.setText(reporte);
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -317,9 +338,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -327,6 +345,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;

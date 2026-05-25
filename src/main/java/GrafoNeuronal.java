@@ -1,32 +1,26 @@
 /**
- * Estructura de datos propia: Grafo Dirigido para la Red Cerebral.
- * Utiliza la clase Lista hecha desde cero para almacenar los nodos (Neuronas).
+ * Estructura de datos: Grafo Dirigido para la Red Cerebral.
  */
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
+import org.graphstream.graph.implementations.SingleGraph;
+
 public class GrafoNeuronal {
     
-    // Lista propia con todas las neuronas que pertenecen al cerebro
     private Lista<Neurona> neuronas;
     private Lista<Sinapsis> sinapsis;
     
-    // Constructor
     public GrafoNeuronal() {
         this.neuronas = new Lista<>();
         this.sinapsis = new Lista<>(); 
     }
 
-    /**
-     * Agrega una neurona al grafo si no existe previamente.
-     */
     public void agregarNeurona(String id) {
         if (buscarNeurona(id) == null) {
             neuronas.agregar(new Neurona(id));
         }
     }
 
-    /**
-     * Busca una neurona en la lista por su ID único.
-     * Retorna el objeto Neurona si lo encuentra, o null si no existe.
-     */
     public Neurona buscarNeurona(String id) {
         for (int i = 0; i < neuronas.getTamano(); i++) {
             Neurona n = neuronas.obtener(i);
@@ -38,47 +32,105 @@ public class GrafoNeuronal {
     }
 
     /**
-     * Conecta una neurona origen con una destino usando un neurotransmisor específico.
+     * MÉTODO CORREGIDO: Recibe los 5 parámetros que envía el GestorArchivo.
      */
-    public void conectarNeuronas(String idOrigen, String idDestino, double distancia, Neurotransmisor nt) {
-        // Asegurar que ambas neuronas existan
+    public void conectarNeuronas(String idOrigen, String idDestino, double distancia, Neurotransmisor nt, double k) {
         agregarNeurona(idOrigen);
         agregarNeurona(idDestino);
 
         Neurona origen = buscarNeurona(idOrigen);
         Neurona destino = buscarNeurona(idDestino);
 
-        
-        // El coeficiente de eficiencia inicial 'k' es siempre 1.0
-        origen.agregarSinapsis(destino, distancia, nt, 1.0);
+        if (origen != null && destino != null) {
+            // Se crea la sinapsis con el coeficiente k recibido del CSV
+            Sinapsis nuevaSinapsis = new Sinapsis(origen, destino, distancia, nt, k);
+            
+            // Registro local y global
+            origen.agregarSinapsis(destino, distancia, nt, k);
+            this.sinapsis.agregar(nuevaSinapsis);
         }
+    }
 
-    /**
-     * Permite acceder a la lista completa de neuronas
-     */
     public Lista<Neurona> getNeuronas() {
         return neuronas;
     }
 
-    /**
-     * Simula el deterioro cognitivo o fatiga general multiplicando k por 1.2 [cite: 13, 18, 27]
-     */
     public void simularFatigaGlobal() {
-        // Validación
-        if (this.sinapsis == null || this.sinapsis.estaVacia()) {
-            return;
+        if (this.sinapsis == null) return;
+        for (int i = 0; i < this.sinapsis.getTamano(); i++) {
+            Sinapsis s = this.sinapsis.obtener(i);
+            if (s != null) s.aplicarFatiga();
+        }
+    }
+
+    public String obtenerZonasAisladas() {
+        if (this.neuronas == null || this.neuronas.getTamano() == 0) {
+            return "El cerebro no tiene neuronas registradas.";
+        }
+
+        StringBuilder reporte = new StringBuilder();
+        reporte.append("REPORTE CLÍNICO: ZONAS AISLADAS \n\n");
+        int contadorAisladas = 0;
+
+        for (int i = 0; i < this.neuronas.getTamano(); i++) {
+            Neurona neuronaActual = this.neuronas.obtener(i);
+            String idActual = neuronaActual.getId();
+            boolean tieneConexiones = false;
+
+            if (this.sinapsis != null) {
+                for (int j = 0; j < this.sinapsis.getTamano(); j++) {
+                    Sinapsis s = this.sinapsis.obtener(j);
+                    if ((s.getDestino() != null && s.getDestino().getId().equals(idActual)) || 
+                        (s.getOrigen() != null && s.getOrigen().getId().equals(idActual))) {
+                        tieneConexiones = true;
+                        break; 
+                    }
+                }
+            }
+
+            if (!tieneConexiones) {
+                contadorAisladas++;
+                reporte.append("? Neurona Aislada: [ ").append(idActual).append(" ]\n");
+            }
         }
         
-        // Recorremos la lista usando un ciclo for 
-        for (int i = 0; i < this.sinapsis.getTamano(); i++) {
-            // Obtenemos la sinapsis directamente en la posición i
-            Sinapsis s = this.sinapsis.obtener(i);
+        return contadorAisladas == 0 ? " Salud cerebral óptima." : reporte.toString();
+    }
+   public void visualizarGrafo() {
+    System.setProperty("org.graphstream.ui", "swing");
+    Graph graph = new SingleGraph("Red Neuronal");
+
+    // 1. Agregar nodos
+    for (int i = 0; i < neuronas.getTamano(); i++) {
+        Neurona n = neuronas.obtener(i);
+        if (n != null && graph.getNode(n.getId()) == null) {
+            Node node = graph.addNode(n.getId());
+            node.setAttribute("ui.label", n.getId());
+        }
+    }
+
+    // 2. Agregar aristas con validación de existencia
+    for (int i = 0; i < sinapsis.getTamano(); i++) {
+        Sinapsis s = sinapsis.obtener(i);
+        if (s != null && s.getOrigen() != null && s.getDestino() != null) {
+            String edgeId = s.getOrigen().getId() + "->" + s.getDestino().getId();
             
-            if (s != null) {
-                //  Multiplicamos el factor k por 1.2 
-                double nuevoK = s.getK() * 1.2; 
-                s.setK(nuevoK);
+            // Verificamos si la arista ya existe para evitar errores
+            if (graph.getEdge(edgeId) == null) {
+                graph.addEdge(edgeId, s.getOrigen().getId(), s.getDestino().getId(), true);
             }
         }
     }
+
+    // 3. Estilo visual
+    graph.setAttribute("ui.stylesheet", 
+        "node { fill-color: #20b2aa; size: 20px; text-size: 15; text-offset: 5, 5; } " +
+        "edge { fill-color: #696969; size: 2px; arrow-shape: arrow; }");
+    
+    graph.display();
 }
+    }
+
+    
+    
+    

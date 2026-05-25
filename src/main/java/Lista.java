@@ -3,6 +3,10 @@
  * Reemplaza el uso de ArrayList o LinkedList de java.util.
  */
 public class Lista<T> {
+
+    int size() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
     // Clase interna que representa cada nodo contenedor de la lista
     private static class Nodo<T> {

@@ -42,7 +42,7 @@ public class DiccionarioHash {
     /**
      * Inserta o actualiza un neurotransmisor en la tabla.
      */
-    public void insertar(String clave, Neurotransmisor valor) {
+     public void insertar(String clave, Neurotransmisor valor){
         int indice = calcularIndiceHash(clave);
         Lista<EntradaHash> listaCubeta = tabla[indice];
 

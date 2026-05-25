@@ -15,7 +15,9 @@ public class Neurona {
      * Agrega una nueva sinapsis saliente desde esta neurona a una neurona destino.
      */
     public void agregarSinapsis(Neurona destino, double distancia, Neurotransmisor nt, double k) {
-        Sinapsis nuevaSinapsis = new Sinapsis(destino, distancia, nt, k);
+        // CORRECCIÓN AQUÍ: Pasamos 'this' como origen y 'destino' como destino
+        Sinapsis nuevaSinapsis = new Sinapsis(this, destino, distancia, nt, k);
+        
         NodoSinapsis nuevoNodo = new NodoSinapsis(nuevaSinapsis);
         
         // Insertamos al inicio de la lista enlazada

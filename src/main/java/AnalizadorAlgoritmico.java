@@ -1,15 +1,11 @@
 /**
- * Clase encargada de ejecutar los análisis topológicos y matemáticos sobre el grafo
- * Implementa algoritmos de recorrido sin utilizar librerías de java.util
+ * Clase encargada de ejecutar los análisis topológicos y matemáticos sobre el grafo.
  */
 public class AnalizadorAlgoritmico {
 
     /**
-     * Detecta qué neuronas son "inalcanzables" (zonas aisladas) 
-     * Utiliza un recorrido de búsqueda en anchura (BFS) adaptado de forma manual
-     * * @param grafo El grafo con la red neuronal completa.
-     * @param idOrigen El ID de la neurona desde donde se inicia el estímulo
-     * @return Una Lista de neuronas que quedaron aisladas y no recibieron el estímulo
+     * Detecta qué neuronas son "inalcanzables" (zonas aisladas).
+     * Utiliza un recorrido de búsqueda en anchura (BFS) adaptado de forma manual.
      */
     public Lista<Neurona> detectarZonasAisladas(GrafoNeuronal grafo, String idOrigen) {
         Lista<Neurona> todasLasNeuronas = grafo.getNeuronas();
@@ -17,11 +13,9 @@ public class AnalizadorAlgoritmico {
         
         Neurona nodoInicial = grafo.buscarNeurona(idOrigen);
         if (nodoInicial == null) {
-            // Si la neurona origen no existe, toda la red está técnicamente aislada
             return todasLasNeuronas;
         }
 
-        // Simulamos una Cola (Queue) usando nuestra Lista propia 
         Lista<Neurona> cola = new Lista<>();
         cola.agregar(nodoInicial);
         visitadas.agregar(nodoInicial);
@@ -31,12 +25,11 @@ public class AnalizadorAlgoritmico {
             Neurona actual = cola.obtener(indiceCola);
             indiceCola++;
 
-            // Recorremos las sinapsis salientes de la neurona usando los nodos enlazados manuales
             NodoSinapsis nodoSinapsisActual = actual.getPrimerSinapsis();
             while (nodoSinapsisActual != null) {
-                Neurona vecina = nodoSinapsisActual.getSinapsis().getNeuronaDestino();
+                // CORRECCIÓN: Ahora llamamos a .getDestino()
+                Neurona vecina = nodoSinapsisActual.getSinapsis().getDestino();
                 
-                // Verificar manualmente si ya fue visitada
                 if (!listaContieneNeurona(visitadas, vecina)) {
                     visitadas.agregar(vecina);
                     cola.agregar(vecina);
@@ -45,8 +38,6 @@ public class AnalizadorAlgoritmico {
             }
         }
 
-        // Identificar las Zonas Aisladas 
-        // Aquellas neuronas que están en el grafo pero NUNCA fueron visitadas
         Lista<Neurona> aisladas = new Lista<>();
         for (int i = 0; i < todasLasNeuronas.getTamano(); i++) {
             Neurona n = todasLasNeuronas.obtener(i);
@@ -59,8 +50,7 @@ public class AnalizadorAlgoritmico {
     }
 
     /**
-     * Aplica de forma global la simulación de fatiga cognitiva a todas las conexiones.
-     * Multiplica el coeficiente k de cada sinapsis por 1.2, alterando el peso W de forma dinámica.
+     * Aplica de forma global la simulación de fatiga cognitiva.
      */
     public void simularFatigaGlobal(GrafoNeuronal grafo) {
         Lista<Neurona> neuronas = grafo.getNeuronas();
@@ -74,10 +64,6 @@ public class AnalizadorAlgoritmico {
         }
     }
 
-    /**
-     * Método auxiliar manual para verificar si una lista contiene a una neurona específica.
-     * 
-     */
     private boolean listaContieneNeurona(Lista<Neurona> lista, Neurona neurona) {
         for (int i = 0; i < lista.getTamano(); i++) {
             if (lista.obtener(i).getId().equals(neurona.getId())) {
