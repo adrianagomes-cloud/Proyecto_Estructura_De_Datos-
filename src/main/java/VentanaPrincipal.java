@@ -94,32 +94,32 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jButton3.setBackground(new java.awt.Color(255, 255, 255));
         jButton3.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 15)); // NOI18N
         jButton3.setForeground(new java.awt.Color(0, 0, 0));
-        jButton3.setText("<html><center>Cargar<br>Neurotransmisores</center></html>");
+        jButton3.setText("<html><center>Cargar<br>Diccionario</center></html>");
         jButton3.setActionCommand("Cargarneurotransmisores");
         jButton3.addActionListener(this::jButton3ActionPerformed);
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 140, 60));
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 280, 140, 60));
 
         jButton4.setBackground(new java.awt.Color(255, 255, 255));
         jButton4.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jButton4.setForeground(new java.awt.Color(0, 0, 0));
-        jButton4.setText("<html><center>Cargar Red<br>Neuronal</center></html>");
+        jButton4.setText("<html><center>Cargar Red<br></center>Neuronal</html>");
         jButton4.setActionCommand("Cargar Red Neuronal");
         jButton4.addActionListener(this::jButton4ActionPerformed);
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 280, 140, 60));
+        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 190, 140, 60));
 
         jButton5.setBackground(new java.awt.Color(255, 255, 255));
         jButton5.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jButton5.setForeground(new java.awt.Color(0, 0, 0));
         jButton5.setText("<html><center>Simular<br>Fatiga Global</center></html>");
         jButton5.addActionListener(this::jButton5ActionPerformed);
-        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 180, 140, 60));
+        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 140, 60));
 
         jButton6.setBackground(new java.awt.Color(255, 255, 255));
         jButton6.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jButton6.setForeground(new java.awt.Color(0, 0, 0));
         jButton6.setText("<html><center>Detectar<br>Zonas Aisladas</center></html>");
         jButton6.addActionListener(this::jButton6ActionPerformed);
-        jPanel1.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, 140, 60));
+        jPanel1.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 140, 60));
 
         jLabel3.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 26)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -266,8 +266,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     "MAPA SINÁPTICO CEREBRAL\n\n" +
                     "Red Neuronal cargada con éxito en la estructura de Grafo.", 
                     "Carga Exitosa", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-                
-                // --- NUEVO: LLAMADA A LA VISUALIZACIÓN ---
+               
+                // LLAMADA A LA VISUALIZACIÓN
                 // Usamos invokeLater para asegurar que Swing dibuje la ventana correctamente
                 java.awt.EventQueue.invokeLater(() -> {
                     this.grafo.visualizarGrafo();

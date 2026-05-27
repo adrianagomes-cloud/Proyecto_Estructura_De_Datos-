@@ -4,11 +4,13 @@
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.graph.Edge;
 
 public class GrafoNeuronal {
     
     private Lista<Neurona> neuronas;
     private Lista<Sinapsis> sinapsis;
+    private SingleGraph grafo;
     
     public GrafoNeuronal() {
         this.neuronas = new Lista<>();
@@ -98,38 +100,67 @@ public class GrafoNeuronal {
     }
    public void visualizarGrafo() {
     System.setProperty("org.graphstream.ui", "swing");
-    Graph graph = new SingleGraph("Red Neuronal");
+    this.grafo = new SingleGraph("Red Neuronal");
+    
 
-    // 1. Agregar nodos
+    // 1. Agregar nodos primero
     for (int i = 0; i < neuronas.getTamano(); i++) {
         Neurona n = neuronas.obtener(i);
-        if (n != null && graph.getNode(n.getId()) == null) {
-            Node node = graph.addNode(n.getId());
+        if (n != null && grafo.getNode(n.getId()) == null) {
+            Node node = grafo.addNode(n.getId());
             node.setAttribute("ui.label", n.getId());
         }
     }
 
-    // 2. Agregar aristas con validación de existencia
+    //  Recorrer las sinapsis para agregar aristas y asignar colores
     for (int i = 0; i < sinapsis.getTamano(); i++) {
         Sinapsis s = sinapsis.obtener(i);
         if (s != null && s.getOrigen() != null && s.getDestino() != null) {
+            
             String edgeId = s.getOrigen().getId() + "->" + s.getDestino().getId();
             
-            // Verificamos si la arista ya existe para evitar errores
-            if (graph.getEdge(edgeId) == null) {
-                graph.addEdge(edgeId, s.getOrigen().getId(), s.getDestino().getId(), true);
+            // Verificamos si la arista ya existe 
+            if (grafo.getEdge(edgeId) == null) {
+                Edge arista = grafo.addEdge(edgeId, s.getOrigen().getId(), s.getDestino().getId(), true);
+                arista.setAttribute("ui.label", String.format("%.2f", s.getDistancia()));
+
+                // Aplicar color según el coeficiente k
+                double distancia = s.getDistancia(); 
+            
+            // Ajusta estos umbrales según el rango de distancias de tu CSV
+            if (distancia < 0.3) {
+                arista.setAttribute("ui.class", "bajo");
+            } else if (distancia < 0.7) {
+                arista.setAttribute("ui.class", "medio");
+            } else {
+                arista.setAttribute("ui.class", "alto");
+            }
             }
         }
     }
 
-    // 3. Estilo visual
-    graph.setAttribute("ui.stylesheet", 
-        "node { fill-color: #20b2aa; size: 20px; text-size: 15; text-offset: 5, 5; } " +
-        "edge { fill-color: #696969; size: 2px; arrow-shape: arrow; }");
-    
-    graph.display();
+    // 3. Aplicar estilo y mostrar
+    Estilo();
+    grafo.display();
 }
+
+public void Estilo() {
+    
+    String estiloGrafo =
+            "node { fill-color: purple; size: 60px; stroke-mode: plain; stroke-color: black; stroke-width: 2px; text-size: 16px; text-color: white; }" +
+            "edge { size: 2px; text-size: 20px; text-background-mode: rounded-box; }" +
+            // Nuevas clases para colores de aristas
+            "edge.bajo { fill-color: skyblue; }" +    // distancia baja
+            "edge.medio { fill-color: green; }" + // distancia media
+            "edge.alto { fill-color: #FF007F; }";      // distancia alta
+
+    if (this.grafo != null) {
+        this.grafo.setAttribute("ui.stylesheet", estiloGrafo);
     }
+}
+   
+}
+    
 
     
     
