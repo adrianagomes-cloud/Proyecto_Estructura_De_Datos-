@@ -136,7 +136,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         txtResultados.setEditable(false);
         txtResultados.setColumns(20);
-        txtResultados.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 12)); // NOI18N
+        txtResultados.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 15)); // NOI18N
         txtResultados.setRows(5);
         jScrollPane1.setViewportView(txtResultados);
 
@@ -171,9 +171,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 txtResultados.setText(""); 
                 txtResultados.append(" CONTROL DE NEUROTRANSMISORES \n");
                 txtResultados.append(" Diccionario Hash cargado e inicializado con éxito.\n");
-                txtResultados.append("• Estado: Estructura en memoria lista para proveer búsquedas en O(1).\n");
-                txtResultados.append("----------------------------------------------------------------------\n");
-                txtResultados.append("Las velocidades (v) químicas ya están disponibles para el cálculo del peso W.\n");
+               
             } else {
                 javax.swing.JOptionPane.showMessageDialog(this, 
                     "Error: La estructura interna no es válida.", 
@@ -214,6 +212,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     cuadroFlotante.setVisible(true);
     }//GEN-LAST:event_CalcularRutaOptimaActionPerformed
 
+    
+    
+    
+    
     // Simular Fatiga Global
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // podemos fatigar un cerebro sin datos cargados
@@ -232,7 +234,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         javax.swing.JOptionPane.showMessageDialog(this, 
             "SIMULACIÓN DE TRAUMA COGNITIVO\n\n" +
             "Fatiga inducida globalmente con éxito.\n" +
-            "• Impacto: El factor de conexión (k) se multiplicó por 1.2 de forma general.\n\n" +
+            " Impacto: El factor de conexión (k) se multiplicó por 1.2 de forma general.\n\n" +
             "A partir de este momento, las sinapsis presentarán mayor resistencia,\n" +
             "afectando los tiempos del camino óptimo en el cálculo de rutas.", 
             "Simulación Activa", javax.swing.JOptionPane.WARNING_MESSAGE);
@@ -293,6 +295,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    
+    
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
                                                        
     //  Verificación de seguridad
@@ -309,9 +313,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     txtResultados.setText(reporte);
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+   
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

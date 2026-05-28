@@ -125,7 +125,6 @@ public class GrafoNeuronal {
             if (grafo.getEdge(edgeId) == null) {
                 Edge arista = grafo.addEdge(edgeId, s.getOrigen().getId(), s.getDestino().getId(), true);
                 arista.setAttribute("ui.label", String.format("%.2f", s.getDistancia()));
-                
                 arista.setAttribute("distancia", s.getDistancia());
 
                 // Aplicar color según el coeficiente k
@@ -202,35 +201,38 @@ public void Estilo() {
     return false;
 }
    
-    public void limpiarEstilosVisuales() {
+   public void limpiarEstilosVisuales() {
     if (this.grafo == null) return;
 
-    // Limpiar nodos: Iteración directa
+    // 1. Limpiar nodos: quitar la clase de la ruta
     for (Node n : grafo) {
         if ("ruta".equals(n.getAttribute("ui.class"))) {
             n.removeAttribute("ui.class");
         }
     }
 
-    // Limpiar aristas: Usando .edges()
+    // 2. RE-ESTABLECER los colores originales en todas las aristas
     grafo.edges().forEach(e -> {
-        if ("ruta".equals(e.getAttribute("ui.class"))) {
-            e.removeAttribute("ui.class");
+        // Obtenemos la distancia guardada originalmente al crear la arista
+        Object distObj = e.getAttribute("distancia");
+        
+        if (distObj instanceof Double) {
+            double dist = (Double) distObj;
             
-            // Restaurar color original según distancia
-            Object distObj = e.getAttribute("distancia");
-            if (distObj instanceof Double) {
-                double dist = (Double) distObj;
-                if (dist < 0.3) e.setAttribute("ui.class", "bajo");
-                else if (dist < 0.7) e.setAttribute("ui.class", "medio");
-                else e.setAttribute("ui.class", "alto");
-            }
+            // Reasignamos la clase según la lógica de colores que definiste
+            if (dist < 0.3) e.setAttribute("ui.class", "bajo");
+            else if (dist < 0.7) e.setAttribute("ui.class", "medio");
+            else e.setAttribute("ui.class", "alto");
         }
     });
+
+    // 3. Forzar el refresco visual para que el grafo "dibuje" de nuevo
+    // Esto es lo que hace que los cambios se vean en pantalla inmediatamente
+    this.grafo.setAttribute("ui.refresh");
+}
     
 }
-
-} 
+ 
 
     
     

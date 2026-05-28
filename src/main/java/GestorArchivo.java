@@ -57,7 +57,7 @@ public class GestorArchivo {
                     // Buscamos el neurotransmisor en el Diccionario
                     Neurotransmisor nt = diccionarioNT.buscar(idNT);
 
-                    // LLAMADA EXACTA: 5 parámetros (idOrigen, idDestino, distancia, nt, k)
+                    //5 parámetros (idOrigen, idDestino, distancia, nt, k)
                     grafo.conectarNeuronas(origen, destino, distancia, nt, k);
                 }
             }
