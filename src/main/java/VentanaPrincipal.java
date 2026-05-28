@@ -19,7 +19,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     public VentanaPrincipal() {
         super("Simulador de conectividad Neuronal");
         initComponents();
-                this.setLocationRelativeTo(null);
+         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+    // Centramos verticalmente 
+    int x = 0; 
+    int y = (screenSize.height - this.getHeight()) / 2;
+    
+    this.setLocation(x, y);
 
     }
 
@@ -39,7 +44,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        CalcularRutaOptima = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
@@ -83,16 +88,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabel2.setText("SynapseLogic");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 220, 30));
 
-        jButton2.setBackground(new java.awt.Color(255, 255, 255));
-        jButton2.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 17)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(0, 0, 0));
-        jButton2.setText("<html><center>Calcular <br></center> Ruta Optima</html>");
-        jButton2.setToolTipText("");
-        jButton2.addActionListener(this::jButton2ActionPerformed);
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 90, 140, 60));
+        CalcularRutaOptima.setBackground(new java.awt.Color(255, 255, 255));
+        CalcularRutaOptima.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 17)); // NOI18N
+        CalcularRutaOptima.setForeground(new java.awt.Color(0, 0, 0));
+        CalcularRutaOptima.setText("<html><center>Calcular <br></center> Ruta Optima</html>");
+        CalcularRutaOptima.setToolTipText("");
+        CalcularRutaOptima.addActionListener(this::CalcularRutaOptimaActionPerformed);
+        jPanel1.add(CalcularRutaOptima, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 90, 140, 60));
 
         jButton3.setBackground(new java.awt.Color(255, 255, 255));
-        jButton3.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 15)); // NOI18N
+        jButton3.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
         jButton3.setForeground(new java.awt.Color(0, 0, 0));
         jButton3.setText("<html><center>Cargar<br>Diccionario</center></html>");
         jButton3.setActionCommand("Cargarneurotransmisores");
@@ -187,27 +192,27 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     
     
     // Boton de Buscar Ruta Optima
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-     // ventana principal 
+    private void CalcularRutaOptimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalcularRutaOptimaActionPerformed
+  // 1. Verificación de seguridad
+    if (this.grafo == null) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+            "Error: Primero debe cargar la Red Neuronal.", 
+            "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
     javax.swing.JFrame topFrame = (javax.swing.JFrame) javax.swing.SwingUtilities.getWindowAncestor(this);
-    
-    // cuadro de diálogo flotante
     javax.swing.JDialog cuadroFlotante = new javax.swing.JDialog(topFrame, "Selección de Ruta Óptima", true);
     
-    //PanelDeBusqueda
-    PanelDeBusqueda panelBusqueda = new PanelDeBusqueda();
+    // 
+    PanelDeBusqueda panelBusqueda = new PanelDeBusqueda(this.grafo);
     
-    //  ventana flotante
     cuadroFlotante.add(panelBusqueda);
-    
-    // Ajustes
-    cuadroFlotante.pack();                          // Ajusta el tamaño
-    cuadroFlotante.setLocationRelativeTo(topFrame); 
-    cuadroFlotante.setResizable(false);            
-    
-    //  aparece en pantalla
+    cuadroFlotante.pack();
+    cuadroFlotante.setLocationRelativeTo(topFrame);
+    cuadroFlotante.setResizable(false);
     cuadroFlotante.setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_CalcularRutaOptimaActionPerformed
 
     // Simular Fatiga Global
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -272,7 +277,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 java.awt.EventQueue.invokeLater(() -> {
                     this.grafo.visualizarGrafo();
                 });
-                // ----------------------------------------
+                
                 
             } else {
                 javax.swing.JOptionPane.showMessageDialog(this, 
@@ -292,16 +297,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                                        
     //  Verificación de seguridad
     if (this.grafo == null) {
-        txtResultados.setText("⚠️ Error: El sistema no detecta una red neuronal cargada. Por favor, cargue la red primero.");
+        txtResultados.setText(" Error: El sistema no detecta una red neuronal cargada. Por favor, cargue la red primero.");
         return;
     }
 
-    // 2. Ejecutar el análisis clínico
+    //  Ejecutar el análisis clínico
     // Estamos llamando directamente al método que corregimos en GrafoNeuronal.java
     String reporte = this.grafo.obtenerZonasAisladas();
 
-    // 3. Mostrar el reporte en tu área de texto
-    // Asegúrate de que tu JTextArea se llame 'txtResultados'
+    //  Mostrar el reporte en tu área de texto
     txtResultados.setText(reporte);
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -331,8 +335,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CalcularRutaOptima;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;

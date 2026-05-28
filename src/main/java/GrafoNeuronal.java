@@ -1,10 +1,12 @@
 /**
  * Estructura de datos: Grafo Dirigido para la Red Cerebral.
  */
+import java.awt.Component;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.graph.Edge;
+import org.graphstream.algorithm.Dijkstra;
 
 public class GrafoNeuronal {
     
@@ -103,7 +105,7 @@ public class GrafoNeuronal {
     this.grafo = new SingleGraph("Red Neuronal");
     
 
-    // 1. Agregar nodos primero
+    //  Agregar nodos 
     for (int i = 0; i < neuronas.getTamano(); i++) {
         Neurona n = neuronas.obtener(i);
         if (n != null && grafo.getNode(n.getId()) == null) {
@@ -123,6 +125,8 @@ public class GrafoNeuronal {
             if (grafo.getEdge(edgeId) == null) {
                 Edge arista = grafo.addEdge(edgeId, s.getOrigen().getId(), s.getDestino().getId(), true);
                 arista.setAttribute("ui.label", String.format("%.2f", s.getDistancia()));
+                
+                arista.setAttribute("distancia", s.getDistancia());
 
                 // Aplicar color según el coeficiente k
                 double distancia = s.getDistancia(); 
@@ -135,13 +139,25 @@ public class GrafoNeuronal {
             } else {
                 arista.setAttribute("ui.class", "alto");
             }
-            }
+            
+         
         }
-    }
+            
+    }  
+}Estilo();
+    
+    org.graphstream.ui.view.Viewer viewer = grafo.display();
+    viewer.setCloseFramePolicy(org.graphstream.ui.view.Viewer.CloseFramePolicy.HIDE_ONLY);
 
-    // 3. Aplicar estilo y mostrar
-    Estilo();
-    grafo.display();
+    javax.swing.SwingUtilities.invokeLater(() -> {
+        java.awt.Window window = javax.swing.SwingUtilities.getWindowAncestor((Component) viewer.getDefaultView());
+        if (window != null) {
+            java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+            int x = screenSize.width - window.getWidth() - 20; 
+            int y = (screenSize.height - window.getHeight()) / 2;
+            window.setLocation(x, y);
+        }
+    });
 }
 
 public void Estilo() {
@@ -152,15 +168,69 @@ public void Estilo() {
             // Nuevas clases para colores de aristas
             "edge.bajo { fill-color: skyblue; }" +    // distancia baja
             "edge.medio { fill-color: green; }" + // distancia media
-            "edge.alto { fill-color: #FF007F; }";      // distancia alta
-
+            "edge.alto { fill-color: #FF007F; }"+     // distancia alta
+            "node.ruta { fill-color: skyblue; size: 80px; stroke-width: 4px; }"+
+            "edge.ruta { fill-color: #FF007F; size: 5px; }";
+    
     if (this.grafo != null) {
         this.grafo.setAttribute("ui.stylesheet", estiloGrafo);
+        
     }
 }
-   
-}
+   public boolean resaltarRuta(String idOrigen, String idDestino) {
+   limpiarEstilosVisuales();
     
+    Dijkstra dijkstra = new Dijkstra(Dijkstra.Element.EDGE, null, "distancia");
+    dijkstra.init(grafo);
+    dijkstra.setSource(grafo.getNode(idOrigen));
+    dijkstra.compute();
+
+    org.graphstream.graph.Path path = dijkstra.getPath(grafo.getNode(idDestino));
+
+    if (path != null) {
+        for (Node n : path.getNodeSet()) {
+            n.setAttribute("ui.class", "ruta");
+        }
+        for (Edge e : path.getEdgeSet()) {
+            e.setAttribute("ui.class", "ruta");
+        }
+        
+        grafo.setAttribute("ui.stylesheet", grafo.getAttribute("ui.stylesheet"));
+        
+        return true;
+    }
+    return false;
+}
+   
+    public void limpiarEstilosVisuales() {
+    if (this.grafo == null) return;
+
+    // Limpiar nodos: Iteración directa
+    for (Node n : grafo) {
+        if ("ruta".equals(n.getAttribute("ui.class"))) {
+            n.removeAttribute("ui.class");
+        }
+    }
+
+    // Limpiar aristas: Usando .edges()
+    grafo.edges().forEach(e -> {
+        if ("ruta".equals(e.getAttribute("ui.class"))) {
+            e.removeAttribute("ui.class");
+            
+            // Restaurar color original según distancia
+            Object distObj = e.getAttribute("distancia");
+            if (distObj instanceof Double) {
+                double dist = (Double) distObj;
+                if (dist < 0.3) e.setAttribute("ui.class", "bajo");
+                else if (dist < 0.7) e.setAttribute("ui.class", "medio");
+                else e.setAttribute("ui.class", "alto");
+            }
+        }
+    });
+    
+}
+
+} 
 
     
     
