@@ -203,7 +203,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     javax.swing.JDialog cuadroFlotante = new javax.swing.JDialog(topFrame, "Selección de Ruta Óptima", true);
     
     // 
-    PanelDeBusqueda panelBusqueda = new PanelDeBusqueda(this.grafo);
+    PanelDelGrafo panelBusqueda = new PanelDelGrafo(this.grafo);
     
     cuadroFlotante.add(panelBusqueda);
     cuadroFlotante.pack();

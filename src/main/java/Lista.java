@@ -1,14 +1,10 @@
 /**
- * Estructura de datos propia: Lista Enlazada Simple Genérica.
- * Reemplaza el uso de ArrayList o LinkedList de java.util.
+ * Estructura de datos: Lista Enlazada Simple propia.
+ * No utiliza java.util.* ni diccionarios.
  */
 public class Lista<T> {
 
-    int size() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
-    // Clase interna que representa cada nodo contenedor de la lista
+    // Clase interna del nodo
     private static class Nodo<T> {
         T dato;
         Nodo<T> siguiente;
@@ -27,9 +23,7 @@ public class Lista<T> {
         this.tamano = 0;
     }
 
-    /**
-     * Agrega un elemento al final de la lista.
-     */
+    // Agregar elemento al final
     public void agregar(T elemento) {
         Nodo<T> nuevoNodo = new Nodo<>(elemento);
         if (cabeza == null) {
@@ -45,11 +39,36 @@ public class Lista<T> {
     }
 
     /**
-     * Obtiene el elemento en un índice específico
+     * Elimina un elemento buscando su igualdad.
+     * Funciona recorriendo la lista y enlazando el anterior con el siguiente.
      */
+    public void eliminar(T elemento) {
+        if (cabeza == null) return;
+
+        // Si el elemento a eliminar es la cabeza
+        if (cabeza.dato.equals(elemento)) {
+            cabeza = cabeza.siguiente;
+            tamano--;
+            return;
+        }
+
+        // Buscar el elemento en la lista
+        Nodo<T> actual = cabeza;
+        while (actual.siguiente != null && !actual.siguiente.dato.equals(elemento)) {
+            actual = actual.siguiente;
+        }
+
+        // Si se encontró, saltar el nodo para eliminarlo
+        if (actual.siguiente != null) {
+            actual.siguiente = actual.siguiente.siguiente;
+            tamano--;
+        }
+    }
+
+    // Obtener elemento por índice
     public T obtener(int indice) {
         if (indice < 0 || indice >= tamano) {
-            throw new IndexOutOfBoundsException("Índice fuera de rango");
+            return null; // O manejar el error según tu necesidad
         }
         Nodo<T> actual = cabeza;
         for (int i = 0; i < indice; i++) {
