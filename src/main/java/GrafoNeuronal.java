@@ -8,6 +8,7 @@ import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.graph.Edge;
 import org.graphstream.algorithm.Dijkstra;
 
+//grafo cargado 
 public class GrafoNeuronal {
     
     private Lista<Neurona> neuronas;
@@ -34,34 +35,45 @@ public class GrafoNeuronal {
         }
         return null;
     }
-    public void conectarNeuronas(String idOrigen, String idDestino, double distancia, Neurotransmisor nt, double k) {
-        agregarNeurona(idOrigen);
-        agregarNeurona(idDestino);
+  public void conectarNeuronas(String idOrigen, String idDestino, double distancia, Neurotransmisor nt, double k) {
+    // Asegurar que ambas neuronas existan en la estructura lógica
+    agregarNeurona(idOrigen);
+    agregarNeurona(idDestino);
 
-        Neurona origen = buscarNeurona(idOrigen);
-        Neurona destino = buscarNeurona(idDestino);
+    Neurona origen = buscarNeurona(idOrigen);
+    Neurona destino = buscarNeurona(idDestino);
 
-        if (origen != null && destino != null) {
-            Sinapsis nuevaSinapsis = new Sinapsis(origen, destino, distancia, nt, k);
-            origen.agregarSinapsis(destino, distancia, nt, k);
-            this.sinapsis.agregar(nuevaSinapsis);
+    if (origen != null && destino != null) {
+        // Crear y registrar la sinapsis en la lista lógica
+        origen.agregarSinapsis(destino, distancia, nt, k);
+        Sinapsis nuevaSinapsis = new Sinapsis(origen, destino, distancia, nt, k);
+        origen.agregarSinapsis(destino, distancia, nt, k);
+        this.sinapsis.agregar(nuevaSinapsis);
 
-            // Registro visual
-            if (this.grafo != null) {
-                String edgeId = idOrigen + "->" + idDestino;
-                if (this.grafo.getEdge(edgeId) == null) {
-                    Edge arista = this.grafo.addEdge(edgeId, idOrigen, idDestino, true);
-                    arista.setAttribute("distancia", distancia);
-                    arista.setAttribute("ui.label", String.format("%.2f", distancia));
-                    
-                    if (distancia < 0.3) arista.setAttribute("ui.class", "bajo");
-                    else if (distancia < 0.7) arista.setAttribute("ui.class", "medio");
-                    else arista.setAttribute("ui.class", "alto");
-                }
+        //  Registro visual (GraphStream)
+        if (this.grafo != null) {
+            String edgeId = idOrigen + "->" + idDestino;
+            
+            // Verificamos si la arista ya existe para evitar errores
+            if (this.grafo.getEdge(edgeId) == null) {
+                Edge arista = this.grafo.addEdge(edgeId, idOrigen, idDestino, true);
+                
+                // Asignamos atributos visuales
+                arista.setAttribute("distancia", distancia);
+                arista.setAttribute("ui.label", String.format("%.2f", distancia));
+                
+                // Aplicar estilo de color según distancia
+                if (distancia < 0.3) arista.setAttribute("ui.class", "bajo");
+                else if (distancia < 0.7) arista.setAttribute("ui.class", "medio");
+                else arista.setAttribute("ui.class", "alto");
+            }
+            
+            // Forzar el refresco visual
+            this.grafo.setAttribute("ui.refresh");
         }
     }
     }
-    
+
     public Lista<Neurona> getNeuronas() {
         return neuronas;
     }
@@ -167,7 +179,7 @@ public class GrafoNeuronal {
 }
 
 public void Estilo() {
-    
+    //colores del grafo 
     String estiloGrafo =
             "node { fill-color: purple; size: 60px; stroke-mode: plain; stroke-color: black; stroke-width: 2px; text-size: 16px; text-color: white; }" +
             "edge { size: 2px; text-size: 20px; text-background-mode: rounded-box; }" +
@@ -183,6 +195,7 @@ public void Estilo() {
         
     }
 }
+//resaltar con los colores la ruta mas optima 
    public boolean resaltarRuta(String idOrigen, String idDestino) {
    limpiarEstilosVisuales();
     
@@ -214,7 +227,7 @@ public void Estilo() {
    public void limpiarEstilosVisuales() {
     if (this.grafo == null) return;
 
-    // Limpiar nodos: quitar la clase de la ruta
+    // Limpiar nodos quitar la clase de la ruta
     for (Node n : grafo) {
         if ("ruta".equals(n.getAttribute("ui.class"))) {
             n.removeAttribute("ui.class");
@@ -247,60 +260,44 @@ public void Estilo() {
    //agregar neuronas
     public void agregarNeuronaManual(String id) {
     if (buscarNeurona(id) == null) {
-        // 1. Agregar a la lista lógica primero
-        Neurona nuevaNeurona = new Neurona(id);
-        neuronas.agregar(nuevaNeurona);
+        // Agregar a la lista lógica
+        neuronas.agregar(new Neurona(id));
         
-        //  CREAR EL NODO VISUAL PRIMERO
+        //  Crear el nodo visual solo si el grafo existe
         if (this.grafo != null) {
             Node n = this.grafo.addNode(id);
             n.setAttribute("ui.label", id);
+            this.grafo.setAttribute("ui.refresh"); // IMPORTANTE
         }
-
-        //  AHORA conectar con las existentes
-        // Al estar el nodo ya en el grafo, conectarNeuronas podrá vincular las aristas
-        for (int i = 0; i < neuronas.getTamano(); i++) {
-            Neurona existente = neuronas.obtener(i);
-            if (!existente.getId().equals(id)) { // No conectar consigo misma
-                conectarNeuronas(existente.getId(), id, 0.5, null, 1.0);
-            }
-        }
-        
-        // Refrescar el grafo
-        if (this.grafo != null) {
-            this.grafo.setAttribute("ui.refresh");
-        }
-    
     }
  }
     
     
  //Eliminar Neuronas 
-    public void eliminarNeurona(String id) {
+   public void eliminarNeurona(String id) {
     Neurona n = buscarNeurona(id);
     if (n == null) return;
 
-    // 1. ELIMINAR SINAPSIS (Cuidado aquí)
+    // Eliminar todas las sinapsis relacionadas (de la lista lógica)
     int i = 0;
     while (i < sinapsis.getTamano()) {
         Sinapsis s = sinapsis.obtener(i);
         if (s.getOrigen().getId().equals(id) || s.getDestino().getId().equals(id)) {
             sinapsis.eliminar(s);
-            // No incrementamos 'i' porque al eliminar, el siguiente elemento 
-            // ocupa el lugar actual.
         } else {
             i++;
         }
     }
-    
-    // ELIMINAR LA NEURONA DE LA LISTA
+
+    // Eliminar de la lista de neuronas
     neuronas.eliminar(n);
 
-    // LIMINAR DEL GRAFO VISUAL
+    // Eliminar visualmente del grafo (GraphStream)
     if (this.grafo != null) {
         if (this.grafo.getNode(id) != null) {
             this.grafo.removeNode(id);
         }
+        this.grafo.setAttribute("ui.refresh");
     }
     }
 }

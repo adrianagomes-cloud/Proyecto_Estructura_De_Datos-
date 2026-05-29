@@ -27,7 +27,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     this.setLocation(x, y);
 
     }
-
+public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
+    jPanel1.removeAll();
+    // Forzamos el layout para garantizar la posición a la izquierda
+    jPanel1.setLayout(new java.awt.BorderLayout()); 
+    jPanel1.add(nuevoPanel, java.awt.BorderLayout.WEST);
+    jPanel1.revalidate();
+    jPanel1.repaint();
+    }
    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -45,10 +52,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         CalcularRutaOptima = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        CargarDiccionario = new javax.swing.JButton();
+        CargaRedNeuronal = new javax.swing.JButton();
+        SimularFatigaGlobal = new javax.swing.JButton();
+        DetectarZonasAisladas = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -96,35 +103,35 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         CalcularRutaOptima.addActionListener(this::CalcularRutaOptimaActionPerformed);
         jPanel1.add(CalcularRutaOptima, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 90, 140, 60));
 
-        jButton3.setBackground(new java.awt.Color(255, 255, 255));
-        jButton3.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(0, 0, 0));
-        jButton3.setText("<html><center>Cargar<br>Diccionario</center></html>");
-        jButton3.setActionCommand("Cargarneurotransmisores");
-        jButton3.addActionListener(this::jButton3ActionPerformed);
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 280, 140, 60));
+        CargarDiccionario.setBackground(new java.awt.Color(255, 255, 255));
+        CargarDiccionario.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        CargarDiccionario.setForeground(new java.awt.Color(0, 0, 0));
+        CargarDiccionario.setText("<html><center>Cargar<br>Diccionario</center></html>");
+        CargarDiccionario.setActionCommand("Cargarneurotransmisores");
+        CargarDiccionario.addActionListener(this::CargarDiccionarioActionPerformed);
+        jPanel1.add(CargarDiccionario, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 280, 140, 60));
 
-        jButton4.setBackground(new java.awt.Color(255, 255, 255));
-        jButton4.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(0, 0, 0));
-        jButton4.setText("<html><center>Cargar Red<br></center>Neuronal</html>");
-        jButton4.setActionCommand("Cargar Red Neuronal");
-        jButton4.addActionListener(this::jButton4ActionPerformed);
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 190, 140, 60));
+        CargaRedNeuronal.setBackground(new java.awt.Color(255, 255, 255));
+        CargaRedNeuronal.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        CargaRedNeuronal.setForeground(new java.awt.Color(0, 0, 0));
+        CargaRedNeuronal.setText("<html><center>Cargar Red<br></center>Neuronal</html>");
+        CargaRedNeuronal.setActionCommand("Cargar Red Neuronal");
+        CargaRedNeuronal.addActionListener(this::CargaRedNeuronalActionPerformed);
+        jPanel1.add(CargaRedNeuronal, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 190, 140, 60));
 
-        jButton5.setBackground(new java.awt.Color(255, 255, 255));
-        jButton5.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(0, 0, 0));
-        jButton5.setText("<html><center>Simular<br>Fatiga Global</center></html>");
-        jButton5.addActionListener(this::jButton5ActionPerformed);
-        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 140, 60));
+        SimularFatigaGlobal.setBackground(new java.awt.Color(255, 255, 255));
+        SimularFatigaGlobal.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        SimularFatigaGlobal.setForeground(new java.awt.Color(0, 0, 0));
+        SimularFatigaGlobal.setText("<html><center>Simular<br>Fatiga Global</center></html>");
+        SimularFatigaGlobal.addActionListener(this::SimularFatigaGlobalActionPerformed);
+        jPanel1.add(SimularFatigaGlobal, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 140, 60));
 
-        jButton6.setBackground(new java.awt.Color(255, 255, 255));
-        jButton6.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(0, 0, 0));
-        jButton6.setText("<html><center>Detectar<br>Zonas Aisladas</center></html>");
-        jButton6.addActionListener(this::jButton6ActionPerformed);
-        jPanel1.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 140, 60));
+        DetectarZonasAisladas.setBackground(new java.awt.Color(255, 255, 255));
+        DetectarZonasAisladas.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        DetectarZonasAisladas.setForeground(new java.awt.Color(0, 0, 0));
+        DetectarZonasAisladas.setText("<html><center>Detectar<br>Zonas Aisladas</center></html>");
+        DetectarZonasAisladas.addActionListener(this::DetectarZonasAisladasActionPerformed);
+        jPanel1.add(DetectarZonasAisladas, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 140, 60));
 
         jLabel3.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 26)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -140,14 +147,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         txtResultados.setRows(5);
         jScrollPane1.setViewportView(txtResultados);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, 550, 90));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, 550, 100));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 500));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 //Boton de Cargar Neurotransmisores 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void CargarDiccionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargarDiccionarioActionPerformed
     //  seleccionar el archivo CSV
     javax.swing.JFileChooser selectorArchivo = new javax.swing.JFileChooser();
     selectorArchivo.setDialogTitle("Seleccionar CSV de Neurotransmisores");
@@ -184,14 +191,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_CargarDiccionarioActionPerformed
 
     
     
     
     // Boton de Buscar Ruta Optima
     private void CalcularRutaOptimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalcularRutaOptimaActionPerformed
-  // 1. Verificación de seguridad
+  // Verificación de seguridad
     if (this.grafo == null) {
         javax.swing.JOptionPane.showMessageDialog(this, 
             "Error: Primero debe cargar la Red Neuronal.", 
@@ -217,7 +224,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     
     
     // Simular Fatiga Global
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void SimularFatigaGlobalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SimularFatigaGlobalActionPerformed
         // podemos fatigar un cerebro sin datos cargados
     if (this.grafo == null || this.grafo.getNeuronas().estaVacia()) {
         javax.swing.JOptionPane.showMessageDialog(this, 
@@ -244,9 +251,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             "Ocurrió un error al procesar el deterioro de la red: " + e.getMessage(), 
             "Error del Simulador", javax.swing.JOptionPane.ERROR_MESSAGE);
     }
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_SimularFatigaGlobalActionPerformed
 //Cargar Red Neuronal
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void CargaRedNeuronalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargaRedNeuronalActionPerformed
   if (this.diccionarioHash == null) {
         javax.swing.JOptionPane.showMessageDialog(this, 
             "Error: Primero debe cargar el Diccionario de Neurotransmisores\npara poder validar las conexiones químicas de la red.", 
@@ -293,11 +300,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 "Error del Sistema", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_CargaRedNeuronalActionPerformed
 
     
     
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void DetectarZonasAisladasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DetectarZonasAisladasActionPerformed
                                                        
     //  Verificación de seguridad
     if (this.grafo == null) {
@@ -311,7 +318,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     //  Mostrar el reporte en tu área de texto
     txtResultados.setText(reporte);
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_DetectarZonasAisladasActionPerformed
 
    
     
@@ -339,11 +346,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CalcularRutaOptima;
+    private javax.swing.JButton CargaRedNeuronal;
+    private javax.swing.JButton CargarDiccionario;
+    private javax.swing.JButton DetectarZonasAisladas;
+    private javax.swing.JButton SimularFatigaGlobal;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
