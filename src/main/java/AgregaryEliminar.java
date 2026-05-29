@@ -1,7 +1,7 @@
 
 import java.awt.Frame;
 import javax.swing.JOptionPane;
-
+//agregar y eliminar 
 public class AgregaryEliminar extends javax.swing.JDialog {
     private GrafoNeuronal grafo;
    
@@ -22,7 +22,7 @@ public class AgregaryEliminar extends javax.swing.JDialog {
         int y = (screenSize.height - this.getHeight()) / 2;
         this.setLocation(x, y);
         
-        // Cargar las neuronas existentes al iniciar la ventana
+        // Cargar las neuronas existentes al iniciar la ventanas
         cargarCombos();
     }
 
