@@ -79,46 +79,122 @@ public class GrafoNeuronal {
     }
 
     public void simularFatigaGlobal() {
-        if (this.sinapsis == null) return;
-        for (int i = 0; i < this.sinapsis.getTamano(); i++) {
-            Sinapsis s = this.sinapsis.obtener(i);
-            if (s != null) s.aplicarFatiga();
+    // 1. Recorremos toda la lista de sinapsis
+    for (int i = 0; i < this.sinapsis.getTamano(); i++) {
+        Sinapsis s = this.sinapsis.obtener(i);
+        
+        // Aplicamos el cambio de factor K (que ya tienes en Sinapsis.java)
+        s.aplicarFatiga();
+        
+        // 2. Visualización: cambiamos el estilo de las aristas para marcar la fatiga
+        if (this.grafo != null) {
+            String edgeId = s.getOrigen().getId() + "-" + s.getDestino().getId();
+            org.graphstream.graph.Edge e = this.grafo.getEdge(edgeId);
+            if (e != null) {
+                // Cambiamos el color a naranja para representar "fatiga"
+                e.setAttribute("ui.style", "fill-color: orange; size: 3px;");
+            }
         }
     }
-
+    
+    // 3. Refrescamos la vista para que los cambios se vean en pantalla
+    if (this.grafo != null) {
+        this.grafo.setAttribute("ui.refresh");
+    }
+    }
+    
+    
     public String obtenerZonasAisladas() {
         if (this.neuronas == null || this.neuronas.getTamano() == 0) {
-            return "El cerebro no tiene neuronas registradas.";
+        return "El cerebro no tiene neuronas registradas.";
+    }
+
+    StringBuilder reporte = new StringBuilder();
+    reporte.append("REPORTE CLÍNICO: ZONAS AISLADAS \n\n");
+    int contadorAisladas = 0;
+
+    for (int i = 0; i < this.neuronas.getTamano(); i++) {
+        Neurona neuronaActual = this.neuronas.obtener(i);
+        String idActual = neuronaActual.getId();
+        boolean tieneConexiones = false;
+
+        // Verificar conexiones
+        if (this.sinapsis != null) {
+            for (int j = 0; j < this.sinapsis.getTamano(); j++) {
+                Sinapsis s = this.sinapsis.obtener(j);
+                if ((s.getDestino() != null && s.getDestino().getId().equals(idActual)) || 
+                    (s.getOrigen() != null && s.getOrigen().getId().equals(idActual))) {
+                    tieneConexiones = true;
+                    break; 
+                }
+            }
         }
 
-        StringBuilder reporte = new StringBuilder();
-        reporte.append("REPORTE CLÍNICO: ZONAS AISLADAS \n\n");
-        int contadorAisladas = 0;
-
-        for (int i = 0; i < this.neuronas.getTamano(); i++) {
-            Neurona neuronaActual = this.neuronas.obtener(i);
-            String idActual = neuronaActual.getId();
-            boolean tieneConexiones = false;
-
-            if (this.sinapsis != null) {
-                for (int j = 0; j < this.sinapsis.getTamano(); j++) {
-                    Sinapsis s = this.sinapsis.obtener(j);
-                    if ((s.getDestino() != null && s.getDestino().getId().equals(idActual)) || 
-                        (s.getOrigen() != null && s.getOrigen().getId().equals(idActual))) {
-                        tieneConexiones = true;
-                        break; 
+        // Lógica de marcado visual
+        if (this.grafo != null) {
+            Node n = this.grafo.getNode(idActual);
+            if (n != null) {
+                if (!tieneConexiones) {
+                    n.setAttribute("ui.class", "aislada"); // Aplicar color azul fuerte
+                } else {
+                    // Si ya no está aislada, quitamos la clase (por si acaso cambió)
+                    if ("aislada".equals(n.getAttribute("ui.class"))) {
+                        n.removeAttribute("ui.class");
                     }
                 }
             }
+        }
 
-            if (!tieneConexiones) {
-                contadorAisladas++;
-                reporte.append("? Neurona Aislada: [ ").append(idActual).append(" ]\n");
+        if (!tieneConexiones) {
+            contadorAisladas++;
+            reporte.append(" Neurona Aislada: [ ").append(idActual).append(" ]\n");
+        }
+    }
+    
+    if (this.grafo != null) this.grafo.setAttribute("ui.refresh");
+    
+    return contadorAisladas == 0 ? " Salud cerebral óptima." : reporte.toString();
+    }
+    
+    public void eliminarZonasAisladas() {
+    // 1. Identificar neuronas sin conexiones
+    Lista<Neurona> aEliminar = new Lista<>();
+    for (int i = 0; i < neuronas.getTamano(); i++) {
+        Neurona n = neuronas.obtener(i);
+        boolean tieneConexion = false;
+        
+        for (int j = 0; j < sinapsis.getTamano(); j++) {
+            Sinapsis s = sinapsis.obtener(j);
+            if (s.getOrigen() == n || s.getDestino() == n) {
+                tieneConexion = true;
+                break;
             }
         }
         
-        return contadorAisladas == 0 ? " Salud cerebral óptima." : reporte.toString();
+        if (!tieneConexion) {
+            aEliminar.agregar(n);
+        }
     }
+
+    // 2. Eliminar las neuronas encontradas
+    for (int i = 0; i < aEliminar.getTamano(); i++) {
+        eliminarNeurona(aEliminar.obtener(i).getId());
+    }
+    
+    // 3. Refrescar visualización
+    if (this.grafo != null) {
+        this.grafo.setAttribute("ui.refresh");
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    }
+    
    public void visualizarGrafo() {
     System.setProperty("org.graphstream.ui", "swing");
     this.grafo = new SingleGraph("Red Neuronal");
@@ -188,7 +264,8 @@ public void Estilo() {
             "edge.medio { fill-color: green; }" + // distancia media
             "edge.alto { fill-color: #FF007F; }"+     // distancia alta
             "node.ruta { fill-color: skyblue; size: 80px; stroke-width: 4px; }"+
-            "edge.ruta { fill-color: #FF007F; size: 5px; }";
+            "edge.ruta { fill-color: #FF007F; size: 5px; }"+
+             "node.aislada { fill-color: #00008B; stroke-color: white; }";
     
     if (this.grafo != null) {
         this.grafo.setAttribute("ui.stylesheet", estiloGrafo);

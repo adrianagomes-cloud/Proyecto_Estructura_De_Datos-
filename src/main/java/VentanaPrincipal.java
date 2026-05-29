@@ -55,12 +55,13 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
         CargarDiccionario = new javax.swing.JButton();
         CargaRedNeuronal = new javax.swing.JButton();
         SimularFatigaGlobal = new javax.swing.JButton();
-        DetectarZonasAisladas = new javax.swing.JButton();
+        EliminarZonasAisladas = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtResultados = new javax.swing.JTextArea();
+        DetectarZonasAisladas1 = new javax.swing.JButton();
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 20)); // NOI18N
@@ -101,7 +102,7 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
         CalcularRutaOptima.setText("<html><center>Calcular <br></center> Ruta Optima</html>");
         CalcularRutaOptima.setToolTipText("");
         CalcularRutaOptima.addActionListener(this::CalcularRutaOptimaActionPerformed);
-        jPanel1.add(CalcularRutaOptima, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 90, 140, 60));
+        jPanel1.add(CalcularRutaOptima, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 140, 60));
 
         CargarDiccionario.setBackground(new java.awt.Color(255, 255, 255));
         CargarDiccionario.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
@@ -109,7 +110,7 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
         CargarDiccionario.setText("<html><center>Cargar<br>Diccionario</center></html>");
         CargarDiccionario.setActionCommand("Cargarneurotransmisores");
         CargarDiccionario.addActionListener(this::CargarDiccionarioActionPerformed);
-        jPanel1.add(CargarDiccionario, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 280, 140, 60));
+        jPanel1.add(CargarDiccionario, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 280, 140, 60));
 
         CargaRedNeuronal.setBackground(new java.awt.Color(255, 255, 255));
         CargaRedNeuronal.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
@@ -117,7 +118,7 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
         CargaRedNeuronal.setText("<html><center>Cargar Red<br></center>Neuronal</html>");
         CargaRedNeuronal.setActionCommand("Cargar Red Neuronal");
         CargaRedNeuronal.addActionListener(this::CargaRedNeuronalActionPerformed);
-        jPanel1.add(CargaRedNeuronal, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 190, 140, 60));
+        jPanel1.add(CargaRedNeuronal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 280, 140, 60));
 
         SimularFatigaGlobal.setBackground(new java.awt.Color(255, 255, 255));
         SimularFatigaGlobal.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
@@ -126,12 +127,12 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
         SimularFatigaGlobal.addActionListener(this::SimularFatigaGlobalActionPerformed);
         jPanel1.add(SimularFatigaGlobal, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 140, 60));
 
-        DetectarZonasAisladas.setBackground(new java.awt.Color(255, 255, 255));
-        DetectarZonasAisladas.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
-        DetectarZonasAisladas.setForeground(new java.awt.Color(0, 0, 0));
-        DetectarZonasAisladas.setText("<html><center>Detectar<br>Zonas Aisladas</center></html>");
-        DetectarZonasAisladas.addActionListener(this::DetectarZonasAisladasActionPerformed);
-        jPanel1.add(DetectarZonasAisladas, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 140, 60));
+        EliminarZonasAisladas.setBackground(new java.awt.Color(255, 255, 255));
+        EliminarZonasAisladas.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        EliminarZonasAisladas.setForeground(new java.awt.Color(0, 0, 0));
+        EliminarZonasAisladas.setText("<html><center>Eliminar<br>Zona Aislada</center></html>");
+        EliminarZonasAisladas.addActionListener(this::EliminarZonasAisladasActionPerformed);
+        jPanel1.add(EliminarZonasAisladas, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 190, 140, 60));
 
         jLabel3.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 26)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -147,7 +148,14 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
         txtResultados.setRows(5);
         jScrollPane1.setViewportView(txtResultados);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, 550, 100));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 550, 120));
+
+        DetectarZonasAisladas1.setBackground(new java.awt.Color(255, 255, 255));
+        DetectarZonasAisladas1.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        DetectarZonasAisladas1.setForeground(new java.awt.Color(0, 0, 0));
+        DetectarZonasAisladas1.setText("<html><center>Detectar<br>Zonas Aisladas</center></html>");
+        DetectarZonasAisladas1.addActionListener(this::DetectarZonasAisladas1ActionPerformed);
+        jPanel1.add(DetectarZonasAisladas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 90, 140, 60));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 500));
 
@@ -225,31 +233,29 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
     
     // Simular Fatiga Global
     private void SimularFatigaGlobalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SimularFatigaGlobalActionPerformed
-        // podemos fatigar un cerebro sin datos cargados
-    if (this.grafo == null || this.grafo.getNeuronas().estaVacia()) {
+      // Validación de seguridad: no podemos fatigar un cerebro vacío
+    if (this.grafo == null) {
         javax.swing.JOptionPane.showMessageDialog(this, 
-            "Error: No se puede simular fatiga porque la Red Neuronal no ha sido cargada.", 
-            "Falta de Datos", javax.swing.JOptionPane.ERROR_MESSAGE);
+            "Error: Primero debe cargar la Red Neuronal.", 
+            "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
         return;
     }
     
     try {
-        // Invocamos la lógica matemática
+        // Ejecución de la lógica
         this.grafo.simularFatigaGlobal();
         
-        //  Notificación
+        // Notificación al usuario
         javax.swing.JOptionPane.showMessageDialog(this, 
-            "SIMULACIÓN DE TRAUMA COGNITIVO\n\n" +
-            "Fatiga inducida globalmente con éxito.\n" +
-            " Impacto: El factor de conexión (k) se multiplicó por 1.2 de forma general.\n\n" +
-            "A partir de este momento, las sinapsis presentarán mayor resistencia,\n" +
-            "afectando los tiempos del camino óptimo en el cálculo de rutas.", 
+            "SIMULACIÓN DE FATIGA GLOBAL\n\n" +
+            "Se ha aplicado un incremento en la resistencia sináptica.\n" +
+            "Las rutas ahora presentarán mayor costo en el cálculo óptimo.", 
             "Simulación Activa", javax.swing.JOptionPane.WARNING_MESSAGE);
             
     } catch (Exception e) {
         javax.swing.JOptionPane.showMessageDialog(this, 
             "Ocurrió un error al procesar el deterioro de la red: " + e.getMessage(), 
-            "Error del Simulador", javax.swing.JOptionPane.ERROR_MESSAGE);
+            "Error del Sistema", javax.swing.JOptionPane.ERROR_MESSAGE);
     }
     }//GEN-LAST:event_SimularFatigaGlobalActionPerformed
 //Cargar Red Neuronal
@@ -304,21 +310,30 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
 
     
     
-    private void DetectarZonasAisladasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DetectarZonasAisladasActionPerformed
-                                                       
-    //  Verificación de seguridad
-    if (this.grafo == null) {
-        txtResultados.setText(" Error: El sistema no detecta una red neuronal cargada. Por favor, cargue la red primero.");
+    private void EliminarZonasAisladasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarZonasAisladasActionPerformed
+  if (this.grafo == null) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Debe cargar una Red Neuronal primero.");
         return;
     }
 
-    //  Ejecutar el análisis clínico
-    // Estamos llamando directamente al método que corregimos en GrafoNeuronal.java
-    String reporte = this.grafo.obtenerZonasAisladas();
+    int confirmacion = javax.swing.JOptionPane.showConfirmDialog(this, 
+            "¿Eliminar todas las neuronas sin conexiones?", "Confirmar", 
+            javax.swing.JOptionPane.YES_NO_OPTION);
 
-    //  Mostrar el reporte en tu área de texto
-    txtResultados.setText(reporte);
-    }//GEN-LAST:event_DetectarZonasAisladasActionPerformed
+    if (confirmacion == javax.swing.JOptionPane.YES_OPTION) {
+        this.grafo.eliminarZonasAisladas();
+        txtResultados.setText("--- LIMPIEZA DE RED ---\n\nZonas aisladas eliminadas con éxito.");
+    }
+    }//GEN-LAST:event_EliminarZonasAisladasActionPerformed
+
+    private void DetectarZonasAisladas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DetectarZonasAisladas1ActionPerformed
+   if (this.grafo == null) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Debe cargar una Red Neuronal primero.");
+        return;
+    }
+    String reporte = this.grafo.obtenerZonasAisladas();
+    txtResultados.setText("--- ANÁLISIS DE CONECTIVIDAD ---\n\n" + reporte);
+    }//GEN-LAST:event_DetectarZonasAisladas1ActionPerformed
 
    
     
@@ -348,7 +363,8 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
     private javax.swing.JButton CalcularRutaOptima;
     private javax.swing.JButton CargaRedNeuronal;
     private javax.swing.JButton CargarDiccionario;
-    private javax.swing.JButton DetectarZonasAisladas;
+    private javax.swing.JButton DetectarZonasAisladas1;
+    private javax.swing.JButton EliminarZonasAisladas;
     private javax.swing.JButton SimularFatigaGlobal;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
