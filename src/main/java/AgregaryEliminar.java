@@ -29,17 +29,18 @@ public class AgregaryEliminar extends javax.swing.JDialog {
     // Método para actualizar el JComboBox con las neuronas actuales del grafo
     private void cargarCombos() {
         jComboBoxDestino.removeAllItems();
-    jComboBox3.removeAllItems();
-    
-    // Añadimos "Ninguna" como primera opción
-    jComboBoxDestino.addItem("Ninguna");
-    
-    Lista<Neurona> lista = grafo.getNeuronas();
-    for (int i = 0; i < lista.getTamano(); i++) {
-        String id = lista.obtener(i).getId();
-        jComboBoxDestino.addItem(id);
-        jComboBox3.addItem(id);
-    }
+        jComboBoxDestino.addItem("Ninguna");
+        Lista<Neurona> lista = grafo.getNeuronas();
+        for (int i = 0; i < lista.getTamano(); i++) {
+            jComboBoxDestino.addItem(lista.obtener(i).getId());
+            
+        }
+        
+        // actualizamos el combo de eliminación 
+        jComboBox3.removeAllItems();
+        for (int i = 0; i < lista.getTamano(); i++) {
+            jComboBox3.addItem(lista.obtener(i).getId());
+        }
     }
     
      
@@ -88,7 +89,7 @@ public class AgregaryEliminar extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Eliminar Neurona ");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 100, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 140, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -103,14 +104,14 @@ public class AgregaryEliminar extends javax.swing.JDialog {
                 EliminarNeuronaActionPerformed(evt);
             }
         });
-        jPanel1.add(EliminarNeurona, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 220, 100, 40));
+        jPanel1.add(EliminarNeurona, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 220, 100, 40));
 
         jLabel3.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Agregar Neurona ");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
 
-        jPanel1.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 150, 200, 40));
+        jPanel1.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 170, 200, 40));
 
         AgregarNeurona.setBackground(new java.awt.Color(0, 153, 0));
         AgregarNeurona.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
@@ -136,6 +137,11 @@ public class AgregaryEliminar extends javax.swing.JDialog {
         });
         jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 180, 50));
 
+        jComboBoxDestino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxDestinoActionPerformed(evt);
+            }
+        });
         jPanel1.add(jComboBoxDestino, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 180, 50));
 
         jLabel4.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
@@ -143,7 +149,7 @@ public class AgregaryEliminar extends javax.swing.JDialog {
         jLabel4.setText("Distancia ");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, -1, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 550, 430));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 480, 430));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -161,41 +167,36 @@ public class AgregaryEliminar extends javax.swing.JDialog {
 //Agregar neurona 
     private void AgregarNeuronaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarNeuronaActionPerformed
 String idNuevo = jTextField1.getText().trim();
-    String destinoElegido = (String) jComboBoxDestino.getSelectedItem();
-    String distStr = jTextField2.getText().trim();
+    String distTexto = jTextField2.getText().trim();
+    String destino = (String) jComboBoxDestino.getSelectedItem();
 
     if (idNuevo.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Debe ingresar un ID para la neurona.");
         return;
     }
 
-    if (grafo.buscarNeurona(idNuevo) != null) {
-        JOptionPane.showMessageDialog(this, "La neurona ya existe.");
-        return;
-    }
+    // 1. Siempre agregamos la neurona (si no existe)
+    grafo.agregarNeuronaManual(idNuevo);
 
-    // 1. Agregamos la neurona primero
-    grafo.agregarNeuronaManual(idNuevo); 
-
-    // 2. Solo intentamos conectar si eligió un destino válido
-    if (destinoElegido != null && !destinoElegido.equals("Ninguna")) {
+    // 2. Lógica condicional de conexión
+    if (destino != null && !destino.equals("Ninguna")) {
         try {
-            double distancia = Double.parseDouble(distStr);
-            grafo.conectarNeuronas(idNuevo, destinoElegido, distancia, null, 1.0);
-            JOptionPane.showMessageDialog(this, "Neurona " + idNuevo + " agregada y conectada a " + destinoElegido);
+            double distancia = Double.parseDouble(distTexto);
+            grafo.conectarNeuronas(idNuevo, destino, distancia, null, 1.0);
+            JOptionPane.showMessageDialog(this, "Neurona " + idNuevo + " agregada y conectada a " + destino);
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Error en la distancia: se agregó la neurona sin conexión.");
+            JOptionPane.showMessageDialog(this, "Para conectar, la distancia debe ser un número decimal.");
+            return; // Salimos si falló el número
         }
     } else {
         JOptionPane.showMessageDialog(this, "Neurona " + idNuevo + " agregada sin conexiones.");
     }
-    
-    // Limpieza
+
+    // 3. Limpiar y refrescar
     jTextField1.setText("");
     jTextField2.setText("");
     cargarCombos();
-    }
-    
+    }//GEN-LAST:event_AgregarNeuronaActionPerformed
 
     
     
@@ -226,6 +227,10 @@ this.dispose();
         cargarCombos(); 
     }
     }//GEN-LAST:event_EliminarNeuronaActionPerformed
+
+    private void jComboBoxDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxDestinoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxDestinoActionPerformed
 
  
     
