@@ -1,12 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 
-/**
- *
- * @author adria
- */
 public class VentanaPrincipal extends javax.swing.JFrame {
     // Atributos del sistema
     private DiccionarioHash diccionarioHash;
@@ -18,7 +10,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      */
     public VentanaPrincipal() {
         super("Simulador de conectividad Neuronal");
+        this.grafo = new GrafoNeuronal();
         initComponents();
+        
          java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
     // Centramos verticalmente 
     int x = 0; 
@@ -27,6 +21,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     this.setLocation(x, y);
 
     }
+    
 public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
     jPanel1.removeAll();
     // Forzamos el layout para garantizar la posición a la izquierda
@@ -57,11 +52,10 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
         SimularFatigaGlobal = new javax.swing.JButton();
         EliminarZonasAisladas = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtResultados = new javax.swing.JTextArea();
         DetectarZonasAisladas1 = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 20)); // NOI18N
@@ -139,8 +133,6 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Simulador de Conectividad Neuronal");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 30, -1, -1));
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, -1));
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 340, -1, -1));
 
         txtResultados.setEditable(false);
         txtResultados.setColumns(20);
@@ -148,7 +140,7 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
         txtResultados.setRows(5);
         jScrollPane1.setViewportView(txtResultados);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 550, 120));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, 550, 120));
 
         DetectarZonasAisladas1.setBackground(new java.awt.Color(255, 255, 255));
         DetectarZonasAisladas1.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
@@ -157,184 +149,188 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
         DetectarZonasAisladas1.addActionListener(this::DetectarZonasAisladas1ActionPerformed);
         jPanel1.add(DetectarZonasAisladas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 90, 140, 60));
 
+        jLabel7.setIcon(new javax.swing.ImageIcon("C:\\Users\\adria\\OneDrive\\Documents\\NetBeansProjects\\Proyecto_Neuronas\\src\\Imagenes\\Cerebro.png")); // NOI18N
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 90, -1, -1));
+
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 500));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void DetectarZonasAisladas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DetectarZonasAisladas1ActionPerformed
+        if (this.grafo == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Debe cargar una Red Neuronal primero.");
+            return;
+        }
+        String reporte = this.grafo.obtenerZonasAisladas();
+        txtResultados.setText("--- ANÁLISIS DE CONECTIVIDAD ---\n\n" + reporte);
+    }//GEN-LAST:event_DetectarZonasAisladas1ActionPerformed
+
+    private void EliminarZonasAisladasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarZonasAisladasActionPerformed
+        if (this.grafo == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Debe cargar una Red Neuronal primero.");
+            return;
+        }
+
+        int confirmacion = javax.swing.JOptionPane.showConfirmDialog(this,
+            "¿Eliminar todas las neuronas sin conexiones?", "Confirmar",
+            javax.swing.JOptionPane.YES_NO_OPTION);
+
+        if (confirmacion == javax.swing.JOptionPane.YES_OPTION) {
+            this.grafo.eliminarZonasAisladas();
+            txtResultados.setText("--- LIMPIEZA DE RED ---\n\nZonas aisladas eliminadas con éxito.");
+        }
+    }//GEN-LAST:event_EliminarZonasAisladasActionPerformed
+
+    // Simular Fatiga Global
+    private void SimularFatigaGlobalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SimularFatigaGlobalActionPerformed
+        // Validación de seguridad: no podemos fatigar un cerebro vacío
+        if (this.grafo == null) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Error: Primero debe cargar la Red Neuronal.",
+                "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            // Ejecución de la lógica
+            this.grafo.simularFatigaGlobal();
+
+            // Notificación al usuario
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "SIMULACIÓN DE FATIGA GLOBAL\n\n" +
+                "Se ha aplicado un incremento en la resistencia sináptica.\n" +
+                "Las rutas ahora presentarán mayor costo en el cálculo óptimo.",
+                "Simulación Activa", javax.swing.JOptionPane.WARNING_MESSAGE);
+
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Ocurrió un error al procesar el deterioro de la red: " + e.getMessage(),
+                "Error del Sistema", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_SimularFatigaGlobalActionPerformed
+
+//Cargar Red Neuronal
+    private void CargaRedNeuronalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargaRedNeuronalActionPerformed
+        if (this.diccionarioHash == null) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Error: Primero debe cargar el Diccionario de Neurotransmisores\npara poder validar las conexiones químicas de la red.",
+                "Orden Requerido", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        javax.swing.JFileChooser selectorArchivo = new javax.swing.JFileChooser();
+        selectorArchivo.setDialogTitle("Seleccionar CSV de Red Neuronal (Sinapsis)");
+        javax.swing.filechooser.FileNameExtensionFilter filtro = new javax.swing.filechooser.FileNameExtensionFilter("Archivos CSV", "csv");
+        selectorArchivo.setFileFilter(filtro);
+
+        int resultado = selectorArchivo.showOpenDialog(this);
+
+        if (resultado == javax.swing.JFileChooser.APPROVE_OPTION) {
+            java.io.File archivoSeleccionado = selectorArchivo.getSelectedFile();
+
+            try {
+                this.grafo = new GrafoNeuronal();
+                boolean exito = GestorArchivo.cargarRedNeuronal(archivoSeleccionado.getAbsolutePath(), this.grafo, this.diccionarioHash);
+
+                if (exito) {
+                    javax.swing.JOptionPane.showMessageDialog(this,
+                        "MAPA SINÁPTICO CEREBRAL\n\n" +
+                        "Red Neuronal cargada con éxito en la estructura de Grafo.",
+                        "Carga Exitosa", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+                    // LLAMADA A LA VISUALIZACIÓN
+                    // Usamos invokeLater para asegurar que Swing dibuje la ventana correctamente
+                    java.awt.EventQueue.invokeLater(() -> {
+                        this.grafo.visualizarGrafo();
+                    });
+
+                } else {
+                    javax.swing.JOptionPane.showMessageDialog(this,
+                        "Error: El archivo de la red neuronal no pudo ser procesado.",
+                        "Error de Validación", javax.swing.JOptionPane.ERROR_MESSAGE);
+                }
+
+            } catch (Exception e) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "No se pudo leer el archivo de la red neuronal: " + e.getMessage(),
+                    "Error del Sistema", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_CargaRedNeuronalActionPerformed
+
 //Boton de Cargar Neurotransmisores 
     private void CargarDiccionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargarDiccionarioActionPerformed
-    //  seleccionar el archivo CSV
-    javax.swing.JFileChooser selectorArchivo = new javax.swing.JFileChooser();
-    selectorArchivo.setDialogTitle("Seleccionar CSV de Neurotransmisores");
-    javax.swing.filechooser.FileNameExtensionFilter filtro = new javax.swing.filechooser.FileNameExtensionFilter("Archivos CSV", "csv");
-    selectorArchivo.setFileFilter(filtro);
+        //  seleccionar el archivo CSV
+        javax.swing.JFileChooser selectorArchivo = new javax.swing.JFileChooser();
+        selectorArchivo.setDialogTitle("Seleccionar CSV de Neurotransmisores");
+        javax.swing.filechooser.FileNameExtensionFilter filtro = new javax.swing.filechooser.FileNameExtensionFilter("Archivos CSV", "csv");
+        selectorArchivo.setFileFilter(filtro);
 
-    int resultado = selectorArchivo.showOpenDialog(this);
-    
-    if (resultado == javax.swing.JFileChooser.APPROVE_OPTION) {
-        java.io.File archivoSeleccionado = selectorArchivo.getSelectedFile();
-        
-        try {
-            // Permitir el vaciado y recarga completa al subir un nuevo diccionario
-            this.diccionarioHash = new DiccionarioHash(); 
-            
-            // Invocamos al Gestor de Archivos para procesar y cargar los neurotransmisores
-            boolean exito = GestorArchivo.cargarNeurotransmisores(archivoSeleccionado.getAbsolutePath(), this.diccionarioHash);
-            
-            if (exito) {
-                // Limpiamos la consola 
-                txtResultados.setText(""); 
-                txtResultados.append(" CONTROL DE NEUROTRANSMISORES \n");
-                txtResultados.append(" Diccionario Hash cargado e inicializado con éxito.\n");
-               
-            } else {
-                javax.swing.JOptionPane.showMessageDialog(this, 
-                    "Error: La estructura interna no es válida.", 
-                    "Error de Validación", javax.swing.JOptionPane.ERROR_MESSAGE);
+        int resultado = selectorArchivo.showOpenDialog(this);
+
+        if (resultado == javax.swing.JFileChooser.APPROVE_OPTION) {
+            java.io.File archivoSeleccionado = selectorArchivo.getSelectedFile();
+
+            try {
+                // Permitir el vaciado y recarga completa al subir un nuevo diccionario
+                this.diccionarioHash = new DiccionarioHash();
+
+                // Invocamos al Gestor de Archivos para procesar y cargar los neurotransmisores
+                boolean exito = GestorArchivo.cargarNeurotransmisores(archivoSeleccionado.getAbsolutePath(), this.diccionarioHash);
+
+                if (exito) {
+                    // Limpiamos la consola
+                    txtResultados.setText("");
+                    txtResultados.append(" CONTROL DE NEUROTRANSMISORES \n");
+                    txtResultados.append(" Diccionario Hash cargado e inicializado con éxito.\n");
+
+                } else {
+                    javax.swing.JOptionPane.showMessageDialog(this,
+                        "Error: La estructura interna no es válida.",
+                        "Error de Validación", javax.swing.JOptionPane.ERROR_MESSAGE);
+                }
+
+            } catch (Exception e) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "No se pudo leer el archivo de neurotransmisores: " + e.getMessage(),
+                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
-            
-        } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(this, 
-                "No se pudo leer el archivo de neurotransmisores: " + e.getMessage(), 
-                "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
-    }
     }//GEN-LAST:event_CargarDiccionarioActionPerformed
 
-    
-    
-    
     // Boton de Buscar Ruta Optima
     private void CalcularRutaOptimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalcularRutaOptimaActionPerformed
-  // Verificación de seguridad
-    if (this.grafo == null) {
-        javax.swing.JOptionPane.showMessageDialog(this, 
-            "Error: Primero debe cargar la Red Neuronal.", 
-            "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-        return;
-    }
+        // Verificación de seguridad
+        if (this.grafo == null) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Error: Primero debe cargar la Red Neuronal.",
+                "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-    javax.swing.JFrame topFrame = (javax.swing.JFrame) javax.swing.SwingUtilities.getWindowAncestor(this);
-    javax.swing.JDialog cuadroFlotante = new javax.swing.JDialog(topFrame, "Selección de Ruta Óptima", true);
-    
-    // 
-    PanelDelGrafo panelBusqueda = new PanelDelGrafo(this.grafo);
-    
-    cuadroFlotante.add(panelBusqueda);
-    cuadroFlotante.pack();
-    cuadroFlotante.setLocationRelativeTo(topFrame);
-    cuadroFlotante.setResizable(false);
-    cuadroFlotante.setVisible(true);
+        javax.swing.JFrame topFrame = (javax.swing.JFrame) javax.swing.SwingUtilities.getWindowAncestor(this);
+        javax.swing.JDialog cuadroFlotante = new javax.swing.JDialog(topFrame, "Selección de Ruta Óptima", true);
+
+        //
+        PanelDelGrafo panelBusqueda = new PanelDelGrafo(this.grafo);
+
+        cuadroFlotante.add(panelBusqueda);
+        cuadroFlotante.pack();
+        cuadroFlotante.setLocationRelativeTo(topFrame);
+        cuadroFlotante.setResizable(false);
+        cuadroFlotante.setVisible(true);
     }//GEN-LAST:event_CalcularRutaOptimaActionPerformed
 
     
     
     
     
-    // Simular Fatiga Global
-    private void SimularFatigaGlobalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SimularFatigaGlobalActionPerformed
-      // Validación de seguridad: no podemos fatigar un cerebro vacío
-    if (this.grafo == null) {
-        javax.swing.JOptionPane.showMessageDialog(this, 
-            "Error: Primero debe cargar la Red Neuronal.", 
-            "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
-    try {
-        // Ejecución de la lógica
-        this.grafo.simularFatigaGlobal();
-        
-        // Notificación al usuario
-        javax.swing.JOptionPane.showMessageDialog(this, 
-            "SIMULACIÓN DE FATIGA GLOBAL\n\n" +
-            "Se ha aplicado un incremento en la resistencia sináptica.\n" +
-            "Las rutas ahora presentarán mayor costo en el cálculo óptimo.", 
-            "Simulación Activa", javax.swing.JOptionPane.WARNING_MESSAGE);
-            
-    } catch (Exception e) {
-        javax.swing.JOptionPane.showMessageDialog(this, 
-            "Ocurrió un error al procesar el deterioro de la red: " + e.getMessage(), 
-            "Error del Sistema", javax.swing.JOptionPane.ERROR_MESSAGE);
-    }
-    }//GEN-LAST:event_SimularFatigaGlobalActionPerformed
-//Cargar Red Neuronal
-    private void CargaRedNeuronalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargaRedNeuronalActionPerformed
-  if (this.diccionarioHash == null) {
-        javax.swing.JOptionPane.showMessageDialog(this, 
-            "Error: Primero debe cargar el Diccionario de Neurotransmisores\npara poder validar las conexiones químicas de la red.", 
-            "Orden Requerido", javax.swing.JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-
-    javax.swing.JFileChooser selectorArchivo = new javax.swing.JFileChooser();
-    selectorArchivo.setDialogTitle("Seleccionar CSV de Red Neuronal (Sinapsis)");
-    javax.swing.filechooser.FileNameExtensionFilter filtro = new javax.swing.filechooser.FileNameExtensionFilter("Archivos CSV", "csv");
-    selectorArchivo.setFileFilter(filtro);
-    
-    int resultado = selectorArchivo.showOpenDialog(this);
-    
-    if (resultado == javax.swing.JFileChooser.APPROVE_OPTION) {
-        java.io.File archivoSeleccionado = selectorArchivo.getSelectedFile();
-        
-        try {
-            this.grafo = new GrafoNeuronal(); 
-            boolean exito = GestorArchivo.cargarRedNeuronal(archivoSeleccionado.getAbsolutePath(), this.grafo, this.diccionarioHash);
-            
-            if (exito) {
-                javax.swing.JOptionPane.showMessageDialog(this, 
-                    "MAPA SINÁPTICO CEREBRAL\n\n" +
-                    "Red Neuronal cargada con éxito en la estructura de Grafo.", 
-                    "Carga Exitosa", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-               
-                // LLAMADA A LA VISUALIZACIÓN
-                // Usamos invokeLater para asegurar que Swing dibuje la ventana correctamente
-                java.awt.EventQueue.invokeLater(() -> {
-                    this.grafo.visualizarGrafo();
-                });
-                
-                
-            } else {
-                javax.swing.JOptionPane.showMessageDialog(this, 
-                    "Error: El archivo de la red neuronal no pudo ser procesado.", 
-                    "Error de Validación", javax.swing.JOptionPane.ERROR_MESSAGE);
-            }
-            
-        } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(this, 
-                "No se pudo leer el archivo de la red neuronal: " + e.getMessage(), 
-                "Error del Sistema", javax.swing.JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    }//GEN-LAST:event_CargaRedNeuronalActionPerformed
-
     
     
-    private void EliminarZonasAisladasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarZonasAisladasActionPerformed
-  if (this.grafo == null) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Debe cargar una Red Neuronal primero.");
-        return;
-    }
-
-    int confirmacion = javax.swing.JOptionPane.showConfirmDialog(this, 
-            "¿Eliminar todas las neuronas sin conexiones?", "Confirmar", 
-            javax.swing.JOptionPane.YES_NO_OPTION);
-
-    if (confirmacion == javax.swing.JOptionPane.YES_OPTION) {
-        this.grafo.eliminarZonasAisladas();
-        txtResultados.setText("--- LIMPIEZA DE RED ---\n\nZonas aisladas eliminadas con éxito.");
-    }
-    }//GEN-LAST:event_EliminarZonasAisladasActionPerformed
-
-    private void DetectarZonasAisladas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DetectarZonasAisladas1ActionPerformed
-   if (this.grafo == null) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Debe cargar una Red Neuronal primero.");
-        return;
-    }
-    String reporte = this.grafo.obtenerZonasAisladas();
-    txtResultados.setText("--- ANÁLISIS DE CONECTIVIDAD ---\n\n" + reporte);
-    }//GEN-LAST:event_DetectarZonasAisladas1ActionPerformed
-
+    
+    
+    
    
     
     public static void main(String args[]) {
@@ -374,7 +370,6 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
