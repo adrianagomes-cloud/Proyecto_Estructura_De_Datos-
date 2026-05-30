@@ -98,21 +98,21 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
         CalcularRutaOptima.addActionListener(this::CalcularRutaOptimaActionPerformed);
         jPanel1.add(CalcularRutaOptima, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 140, 60));
 
-        CargarDiccionario.setBackground(new java.awt.Color(255, 255, 255));
+        CargarDiccionario.setBackground(new java.awt.Color(153, 0, 51));
         CargarDiccionario.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
-        CargarDiccionario.setForeground(new java.awt.Color(0, 0, 0));
+        CargarDiccionario.setForeground(new java.awt.Color(255, 255, 255));
         CargarDiccionario.setText("<html><center>Cargar<br>Diccionario</center></html>");
         CargarDiccionario.setActionCommand("Cargarneurotransmisores");
         CargarDiccionario.addActionListener(this::CargarDiccionarioActionPerformed);
-        jPanel1.add(CargarDiccionario, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 280, 140, 60));
+        jPanel1.add(CargarDiccionario, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 90, 140, 60));
 
-        CargaRedNeuronal.setBackground(new java.awt.Color(255, 255, 255));
+        CargaRedNeuronal.setBackground(new java.awt.Color(0, 102, 102));
         CargaRedNeuronal.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
-        CargaRedNeuronal.setForeground(new java.awt.Color(0, 0, 0));
+        CargaRedNeuronal.setForeground(new java.awt.Color(255, 255, 255));
         CargaRedNeuronal.setText("<html><center>Cargar Red<br></center>Neuronal</html>");
         CargaRedNeuronal.setActionCommand("Cargar Red Neuronal");
         CargaRedNeuronal.addActionListener(this::CargaRedNeuronalActionPerformed);
-        jPanel1.add(CargaRedNeuronal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 280, 140, 60));
+        jPanel1.add(CargaRedNeuronal, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 190, 140, 60));
 
         SimularFatigaGlobal.setBackground(new java.awt.Color(255, 255, 255));
         SimularFatigaGlobal.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
@@ -140,7 +140,7 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
         txtResultados.setRows(5);
         jScrollPane1.setViewportView(txtResultados);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, 550, 120));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 550, 120));
 
         DetectarZonasAisladas1.setBackground(new java.awt.Color(255, 255, 255));
         DetectarZonasAisladas1.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
@@ -148,11 +148,9 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
         DetectarZonasAisladas1.setText("<html><center>Detectar<br>Zonas Aisladas</center></html>");
         DetectarZonasAisladas1.addActionListener(this::DetectarZonasAisladas1ActionPerformed);
         jPanel1.add(DetectarZonasAisladas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 90, 140, 60));
-
-        jLabel7.setIcon(new javax.swing.ImageIcon("C:\\Users\\adria\\OneDrive\\Documents\\NetBeansProjects\\Proyecto_Neuronas\\src\\Imagenes\\Cerebro.png")); // NOI18N
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 90, -1, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 500));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 440));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
