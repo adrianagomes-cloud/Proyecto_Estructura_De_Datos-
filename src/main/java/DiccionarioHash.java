@@ -8,7 +8,11 @@ public class DiccionarioHash {
     private static class EntradaHash {
         String clave; // ID del Neurotransmisor 
         Neurotransmisor valor;
-
+        
+        
+     /**
+     * Clase interna para guardar el par Clave-Valor dentro de las listas de colisión.
+     */
         EntradaHash(String clave, Neurotransmisor valor) {
             this.clave = clave;
             this.valor = valor;

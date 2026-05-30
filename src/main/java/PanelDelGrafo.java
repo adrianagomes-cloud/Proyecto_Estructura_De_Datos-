@@ -1,24 +1,30 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 
 /**
- *
- * @author adria
+ * Panel de control gráfico para la interacción con la red neuronal.
+ * Proporciona interfaces para seleccionar rutas, limpiar estilos, 
+ * gestionar neuronas y cerrar la aplicación.
  */
 import java.awt.Frame;
 import javax.swing.JOptionPane;
 public class PanelDelGrafo extends javax.swing.JPanel {
     private GrafoNeuronal grafoNeuronal;
-
+    
+     /**
+     * Constructor que inicializa el panel y carga las neuronas disponibles 
+     * en los selectores.
+     * @param grafo La instancia del GrafoNeuronal a controlar.
+     */
     public PanelDelGrafo(GrafoNeuronal grafo) {
         this.grafoNeuronal = grafo;
         initComponents();
         
         cargarNeuronas();
     }
-
+     /**
+     * Refresca los componentes JComboBox (origen y destino) con los IDs 
+     * actuales de las neuronas en el grafo.
+     */
     private void cargarNeuronas() {
         if (grafoNeuronal == null) return;
         
@@ -110,7 +116,10 @@ public class PanelDelGrafo extends javax.swing.JPanel {
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, 350));
     }// </editor-fold>//GEN-END:initComponents
-// cerrar
+     /**
+     * Acción vinculada al botón "Cerrar".
+     * Libera los recursos de la ventana contenedora.
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
         // Obtenemos la ventana contenedora (la ventana principal o JDialog)
@@ -128,30 +137,27 @@ public class PanelDelGrafo extends javax.swing.JPanel {
     }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    
-    
-    
-    
-    
+    /**
+     * Acción vinculada al botón "Buscar".
+     * Ejecuta el algoritmo de Dijkstra a través del grafo y muestra el costo total.
+     */
     private void BuscarRutaMasOptimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarRutaMasOptimaActionPerformed
-     String origen = (String) NeuronaOrigen.getSelectedItem();
-        String destino = (String) NeuronaDestino.getSelectedItem();
+    String origen = (String) NeuronaOrigen.getSelectedItem();
+    String destino = (String) NeuronaDestino.getSelectedItem();
 
-        if (origen == null || destino == null) {
-            JOptionPane.showMessageDialog(this, "Seleccione origen y destino.");
-            return;
-        }
+    if (origen == null || destino == null) {
+        JOptionPane.showMessageDialog(this, "Seleccione origen y destino.");
+        return;
+    }
 
-        if (origen.equals(destino)) {
-            JOptionPane.showMessageDialog(this, "Seleccione neuronas distintas.");
-            return;
-        }
+    // Llamada al método modificado que retorna double
+    double costo = grafoNeuronal.resaltarRuta(origen, destino);
 
-        if (grafoNeuronal.resaltarRuta(origen, destino)) {
-            JOptionPane.showMessageDialog(this, "Ruta resaltada.");
-        } else {
-            JOptionPane.showMessageDialog(this, "No existe camino.");
-        }
+    if (costo != -1.0) {
+        JOptionPane.showMessageDialog(this, "Ruta resaltada. Costo total: " + String.format("%.2f", costo));
+    } else {
+        JOptionPane.showMessageDialog(this, "No existe camino posible.");
+    }
     }//GEN-LAST:event_BuscarRutaMasOptimaActionPerformed
 
     
@@ -168,7 +174,10 @@ public class PanelDelGrafo extends javax.swing.JPanel {
     }//GEN-LAST:event_NeuronaDestinoActionPerformed
 
     
-    
+    /**
+     * Acción vinculada al botón "Limpiar".
+     * Restaura los colores originales de todas las aristas eliminando el resaltado de ruta.
+     */
     private void LimpiarNeuronaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LimpiarNeuronaActionPerformed
     if (grafoNeuronal != null) {
         grafoNeuronal.limpiarEstilosVisuales();
@@ -177,7 +186,10 @@ public class PanelDelGrafo extends javax.swing.JPanel {
 
     
     
-    
+    /**
+     * Acción vinculada al botón "Agregar y Eliminar".
+     * Abre un JDialog para la gestión administrativa (CRUD) de las neuronas.
+     */
     private void AgregarOeliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarOeliminarActionPerformed
    if (this.grafoNeuronal == null) {
         javax.swing.JOptionPane.showMessageDialog(this, "Error: El grafo no está inicializado.");
@@ -188,18 +200,14 @@ public class PanelDelGrafo extends javax.swing.JPanel {
     java.awt.Frame padre = (window instanceof java.awt.Frame) ? (java.awt.Frame) window : null;
 
     AgregaryEliminar ventanaGestion = new AgregaryEliminar(padre, true, this.grafoNeuronal);
-
+// Establecemos x = 50  para que se centre al borde izquierdo y y calculado para centrar
     int y = (java.awt.Toolkit.getDefaultToolkit().getScreenSize().height - ventanaGestion.getHeight()) / 2;
-    ventanaGestion.setLocation(0, y);
+    ventanaGestion.setLocation(50, y);
 
     ventanaGestion.setVisible(true);
     
-    // --- ESTA ES LA PARTE QUE ASEGURA EL REFRESCO ---
     this.cargarNeuronas(); // Actualiza los JComboBox
     
-    // Si tienes acceso al objeto grafo dentro de GrafoNeuronal, 
-    // fuerza un refresco visual si el componente existe
-    // grafoNeuronal.visualizarGrafo(); // Descomenta solo si esto no abre una ventana nueva cada vez
     this.repaint(); 
     this.revalidate();
     }//GEN-LAST:event_AgregarOeliminarActionPerformed

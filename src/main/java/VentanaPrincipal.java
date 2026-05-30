@@ -1,17 +1,29 @@
-
+/**
+ * Clase principal de la interfaz gráfica (JFrame).
+ * Gestiona el ciclo de vida de la aplicación, la carga de datos desde archivos (CSV)
+ * y sirve como panel de control central para invocar las operaciones sobre la red neuronal.
+ */
 public class VentanaPrincipal extends javax.swing.JFrame {
     // Atributos del sistema
-    private DiccionarioHash diccionarioHash;
-    private GrafoNeuronal grafo;
+    private DiccionarioHash diccionarioHash; // Estructura de almacenamiento de neurotransmisores
+    private GrafoNeuronal grafo;             // Estructura de datos del grafo (Red Neuronal)
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName());
 
     /**
-     * Creates new form NewJFrame
+     * Inicializa la ventana, configura el entorno visual y muestra las instrucciones
+     * iniciales en el área de resultados.
      */
     public VentanaPrincipal() {
         super("Simulador de conectividad Neuronal");
         this.grafo = new GrafoNeuronal();
         initComponents();
+        
+        txtResultados.setText("Bienvenidos al proyecto de Adriana Gomes\n\n" +
+                          "INSTRUCCIONES:\n" +
+                          "1. Primero, carga el archivo del Diccionario.\n" +
+                          "2. Después, carga el archivo de la Red Neuronal.");
+        
+        
         
          java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
     // Centramos verticalmente 
@@ -22,7 +34,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     }
     
-public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
+    public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
     jPanel1.removeAll();
     // Forzamos el layout para garantizar la posición a la izquierda
     jPanel1.setLayout(new java.awt.BorderLayout()); 
@@ -30,6 +42,10 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
     jPanel1.revalidate();
     jPanel1.repaint();
     }
+    
+    public void escribirResultado(String texto) {
+    this.txtResultados.append(texto);
+}
    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -44,6 +60,7 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
+        jLabel8 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         CalcularRutaOptima = new javax.swing.JButton();
@@ -56,6 +73,7 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
         txtResultados = new javax.swing.JTextArea();
         DetectarZonasAisladas1 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 20)); // NOI18N
@@ -77,6 +95,8 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
         jMenu2.setText("Edit");
         jMenuBar1.add(jMenu2);
 
+        jLabel8.setText("jLabel8");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -88,7 +108,7 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
         jLabel2.setForeground(new java.awt.Color(255, 51, 102));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("SynapseLogic");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 220, 30));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 0, 220, 30));
 
         CalcularRutaOptima.setBackground(new java.awt.Color(255, 255, 255));
         CalcularRutaOptima.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 17)); // NOI18N
@@ -132,7 +152,7 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Simulador de Conectividad Neuronal");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 30, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, -1, -1));
 
         txtResultados.setEditable(false);
         txtResultados.setColumns(20);
@@ -140,7 +160,7 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
         txtResultados.setRows(5);
         jScrollPane1.setViewportView(txtResultados);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 550, 120));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 550, 150));
 
         DetectarZonasAisladas1.setBackground(new java.awt.Color(255, 255, 255));
         DetectarZonasAisladas1.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
@@ -149,6 +169,13 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
         DetectarZonasAisladas1.addActionListener(this::DetectarZonasAisladas1ActionPerformed);
         jPanel1.add(DetectarZonasAisladas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 90, 140, 60));
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 90, -1, -1));
+
+        jButton2.setBackground(new java.awt.Color(102, 0, 0));
+        jButton2.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 12)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("borrar fatiga ");
+        jButton2.addActionListener(this::jButton2ActionPerformed);
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 160, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 440));
 
@@ -179,36 +206,43 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
             txtResultados.setText("--- LIMPIEZA DE RED ---\n\nZonas aisladas eliminadas con éxito.");
         }
     }//GEN-LAST:event_EliminarZonasAisladasActionPerformed
-
-    // Simular Fatiga Global
+     /**
+     * Ejecuta la simulación de fatiga en todas las conexiones del grafo.
+     */
     private void SimularFatigaGlobalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SimularFatigaGlobalActionPerformed
-        // Validación de seguridad: no podemos fatigar un cerebro vacío
-        if (this.grafo == null) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "Error: Primero debe cargar la Red Neuronal.",
-                "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-            return;
-        }
 
-        try {
-            // Ejecución de la lógica
-            this.grafo.simularFatigaGlobal();
+    //  Validación de seguridad
+    if (this.grafo == null) {
+        javax.swing.JOptionPane.showMessageDialog(this,
+            "Error: Primero debe cargar la Red Neuronal.",
+            "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-            // Notificación al usuario
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "SIMULACIÓN DE FATIGA GLOBAL\n\n" +
-                "Se ha aplicado un incremento en la resistencia sináptica.\n" +
-                "Las rutas ahora presentarán mayor costo en el cálculo óptimo.",
-                "Simulación Activa", javax.swing.JOptionPane.WARNING_MESSAGE);
+    try {
+        //Ejecución de la lógica de fatiga
+        this.grafo.simularFatigaGlobal();
 
-        } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "Ocurrió un error al procesar el deterioro de la red: " + e.getMessage(),
-                "Error del Sistema", javax.swing.JOptionPane.ERROR_MESSAGE);
-        }
+        //  Notificación visual al usuario
+        txtResultados.append("\n[SISTEMA]: Fatiga global aplicada. La resistencia sináptica ha aumentado.");
+        
+        javax.swing.JOptionPane.showMessageDialog(this,
+            "SIMULACIÓN DE FATIGA GLOBAL\n\n" +
+            "Se ha aplicado un incremento en la resistencia sináptica.\n" +
+            "Las rutas ahora presentarán mayor costo en el cálculo óptimo.",
+            "Simulación Activa", javax.swing.JOptionPane.WARNING_MESSAGE);
+
+    } catch (Exception e) {
+        javax.swing.JOptionPane.showMessageDialog(this,
+            "Ocurrió un error al procesar el deterioro de la red: " + e.getMessage(),
+            "Error del Sistema", javax.swing.JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_SimularFatigaGlobalActionPerformed
 
-//Cargar Red Neuronal
+     /**
+     * Carga la estructura de la red neuronal desde un archivo CSV.
+     * Requiere que el diccionario esté previamente inicializado.
+     */
     private void CargaRedNeuronalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargaRedNeuronalActionPerformed
         if (this.diccionarioHash == null) {
             javax.swing.JOptionPane.showMessageDialog(this,
@@ -257,7 +291,10 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
         }
     }//GEN-LAST:event_CargaRedNeuronalActionPerformed
 
-//Boton de Cargar Neurotransmisores 
+     /**
+     * Carga el diccionario de neurotransmisores desde un archivo CSV.
+     * Este es el primer paso obligatorio para validar las conexiones de la red.
+     */
     private void CargarDiccionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargarDiccionarioActionPerformed
         //  seleccionar el archivo CSV
         javax.swing.JFileChooser selectorArchivo = new javax.swing.JFileChooser();
@@ -297,7 +334,10 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
         }
     }//GEN-LAST:event_CargarDiccionarioActionPerformed
 
-    // Boton de Buscar Ruta Optima
+     /**
+     * Invocado por el usuario para calcular la ruta óptima entre dos neuronas.
+     * Abre un JDialog conteniendo el panel de búsqueda (PanelDelGrafo).
+     */
     private void CalcularRutaOptimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalcularRutaOptimaActionPerformed
         // Verificación de seguridad
         if (this.grafo == null) {
@@ -310,15 +350,36 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
         javax.swing.JFrame topFrame = (javax.swing.JFrame) javax.swing.SwingUtilities.getWindowAncestor(this);
         javax.swing.JDialog cuadroFlotante = new javax.swing.JDialog(topFrame, "Selección de Ruta Óptima", true);
 
-        //
+        
         PanelDelGrafo panelBusqueda = new PanelDelGrafo(this.grafo);
 
         cuadroFlotante.add(panelBusqueda);
         cuadroFlotante.pack();
-        cuadroFlotante.setLocationRelativeTo(topFrame);
+       int screenHeight = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
+        int y = (screenHeight - cuadroFlotante.getHeight()) / 2;
+        
+        // Establecemos x = 80  para que se centre al borde izquierdo y y calculado para centrar
+        cuadroFlotante.setLocation(80, y);
         cuadroFlotante.setResizable(false);
         cuadroFlotante.setVisible(true);
+        
+        
+        
     }//GEN-LAST:event_CalcularRutaOptimaActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+       if (this.grafo == null) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Debe cargar una Red Neuronal primero.");
+        return;
+    }
+    
+    // Ejecutar el reset
+    this.grafo.resetearFatiga();
+    
+    // Feedback al usuario
+    txtResultados.append("\n[SISTEMA]: Fatiga borrada. Los pesos sinápticos han sido restaurados.");
+    javax.swing.JOptionPane.showMessageDialog(this, "La fatiga ha sido eliminada y los pesos restaurados.");
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     
     
@@ -361,6 +422,7 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
     private javax.swing.JButton EliminarZonasAisladas;
     private javax.swing.JButton SimularFatigaGlobal;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -368,6 +430,7 @@ public void cambiarPanel(javax.swing.JPanel nuevoPanel) {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;

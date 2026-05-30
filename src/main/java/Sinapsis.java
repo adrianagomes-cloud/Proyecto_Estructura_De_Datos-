@@ -1,6 +1,9 @@
 /**
  * Representa una conexión sináptica dirigida entre una neurona origen y una destino.
+ * Esta clase encapsula la lógica de transmisión, integrando factores físicos (distancia)
+ * y químicos (neurotransmisor) para calcular el peso real de la conexión en el grafo.
  */
+
 public class Sinapsis {
     private Neurona neuronaOrigen;
     private Neurona neuronaDestino;
@@ -8,7 +11,15 @@ public class Sinapsis {
     private Neurotransmisor neurotransmisor;  // Objeto neurotransmisor asociado
     private double k;                         // Coeficiente de eficiencia (inicialmente 1.0)
 
-    // Constructor corregido: Ahora recibe tanto el origen como el destino
+   /**
+     * Constructor para inicializar una nueva conexión sináptica.
+     * @param origen Neurona que envía la señal.
+     * @param destino Neurona que recibe la señal.
+     * @param distancia Factor de distancia entre nodos.
+     * @param neurotransmisor Objeto con la velocidad específica de transmisión.
+     * @param k Coeficiente de fatiga inicial.
+     */ 
+    
     public Sinapsis(Neurona origen, Neurona destino, double distancia, Neurotransmisor neurotransmisor, double k) {
         this.neuronaOrigen = origen;
         this.neuronaDestino = destino;
@@ -18,8 +29,10 @@ public class Sinapsis {
     }
 
     /**
-     * Calcula el peso dinámico W de la arista.
-     * Fórmula: W = d / (v * k)
+     * Calcula el peso dinámico (W) de la arista, que representa la resistencia 
+     * o "costo" de la conexión para los algoritmos de búsqueda de ruta.
+     * La fórmula aplicada es: W = d / (v * k).
+     * @return El peso calculado como double.
      */
     public double getPesoW() {
         double v = (neurotransmisor != null) ? neurotransmisor.getVelocidad() : 1.0;
@@ -33,7 +46,7 @@ public class Sinapsis {
         this.k = this.k * 1.2;
     }
 
-    // --- Getters y Setters ---
+    //Getters y Setters
 
     public Neurona getOrigen() {
         return neuronaOrigen;

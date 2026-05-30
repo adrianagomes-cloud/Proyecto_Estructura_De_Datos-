@@ -1,15 +1,17 @@
+    /**
+ * Constructor de la ventana.
+ * @param parent El JFrame padre que invoca esta ventana.
+ * @param modal Indica si la ventana bloquea la interacción con otras ventanas.
+ * @param grafo La instancia del grafo actual para manipular las neuronas.
+ */
 
 import java.awt.Frame;
 import javax.swing.JOptionPane;
-//agregar y eliminar 
 public class AgregaryEliminar extends javax.swing.JDialog {
     private GrafoNeuronal grafo;
    
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AgregaryEliminar.class.getName());
 
-    /**
-     * panel para agregar y eliminar Neuronas 
-     */
     public AgregaryEliminar(java.awt.Frame parent, boolean modal, GrafoNeuronal grafo) {
         super(parent, modal);
         this.grafo = grafo;
@@ -25,8 +27,14 @@ public class AgregaryEliminar extends javax.swing.JDialog {
         // Cargar las neuronas existentes al iniciar la ventanas
         cargarCombos();
     }
-
-    // Método para actualizar el JComboBox con las neuronas actuales del grafo
+    
+    
+/**
+ * Método privado para poblar los JComboBox (Destino y Eliminación)
+ * con la lista actual de neuronas contenidas en el GrafoNeuronal.
+ */
+    
+    
     private void cargarCombos() {
         jComboBoxDestino.removeAllItems();
         jComboBoxDestino.addItem("Ninguna");
@@ -42,13 +50,7 @@ public class AgregaryEliminar extends javax.swing.JDialog {
             jComboBox3.addItem(lista.obtener(i).getId());
         }
     }
-    
-     
-     
-     
-     
-     
-     
+ 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -163,8 +165,10 @@ public class AgregaryEliminar extends javax.swing.JDialog {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
 
-
-//Agregar neurona 
+/**
+ * Método privado que procesa la lógica para agregar una nueva neurona al sistema.
+ * Valida la entrada, actualiza la estructura lógica del grafo y la conexión si aplica.
+ */
     private void AgregarNeuronaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarNeuronaActionPerformed
 String idNuevo = jTextField1.getText().trim();
     String distTexto = jTextField2.getText().trim();
@@ -175,10 +179,10 @@ String idNuevo = jTextField1.getText().trim();
         return;
     }
 
-    // 1. Siempre agregamos la neurona (si no existe)
+    // Siempre agregamos la neurona (si no existe)
     grafo.agregarNeuronaManual(idNuevo);
 
-    // 2. Lógica condicional de conexión
+    //Lógica condicional de conexión
     if (destino != null && !destino.equals("Ninguna")) {
         try {
             double distancia = Double.parseDouble(distTexto);
@@ -192,7 +196,7 @@ String idNuevo = jTextField1.getText().trim();
         JOptionPane.showMessageDialog(this, "Neurona " + idNuevo + " agregada sin conexiones.");
     }
 
-    // 3. Limpiar y refrescar
+    // Limpiar y refrescar
     jTextField1.setText("");
     jTextField2.setText("");
     cargarCombos();
@@ -200,11 +204,17 @@ String idNuevo = jTextField1.getText().trim();
 
     
     
-  //volver
+  /**
+ * Método privado que cierra la ventana actual de gestión.
+ */
     private void VolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverActionPerformed
 this.dispose();
     }//GEN-LAST:event_VolverActionPerformed
-//eliminar Neurona 
+
+ /**
+ * Método privado que ejecuta la eliminación de una neurona seleccionada.
+ * Solicita confirmación al usuario antes de modificar la estructura del grafo.
+ */
     private void EliminarNeuronaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarNeuronaActionPerformed
        String idEliminar = (String) jComboBox3.getSelectedItem();
     

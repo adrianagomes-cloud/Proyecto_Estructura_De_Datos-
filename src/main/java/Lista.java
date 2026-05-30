@@ -1,6 +1,6 @@
 /**
  * Estructura de datos: Lista Enlazada Simple propia.
- * No utiliza java.util.* ni diccionarios.
+ * 
  */
 public class Lista<T> {
 

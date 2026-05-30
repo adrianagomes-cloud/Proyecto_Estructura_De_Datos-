@@ -3,10 +3,19 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * Clase encargada de la lectura de archivos CSV.
+ * Clase encargada de la lectura y procesamiento de archivos externos (formato CSV).
+ * Proporciona métodos para poblar tanto el diccionario de neurotransmisores como 
+ * la topología del grafo neuronal.
  */
 public class GestorArchivo {
-
+/**
+     * Lee un archivo CSV que contiene la información de los neurotransmisores y los carga 
+     * en el DiccionarioHash proporcionado.
+     * @param rutaArchivo Ruta del archivo CSV fuente.
+     * @param diccionario Instancia del DiccionarioHash donde se almacenarán los objetos.
+     * @return true si la carga fue exitosa, false si ocurrió algún error de lectura o formato.
+     */
+    
     public static boolean cargarNeurotransmisores(String rutaArchivo, DiccionarioHash diccionario) {
         String linea;
         String separador = ",";
@@ -34,8 +43,16 @@ public class GestorArchivo {
     }
 
     /**
-     * Carga la red neuronal pasando los 5 parámetros requeridos.
+     * Carga la configuración de la red neuronal desde un archivo CSV.
+     * Este método asocia las conexiones entre neuronas utilizando los neurotransmisores 
+     * previamente almacenados en el DiccionarioHash.
+     * @param rutaArchivo Ruta del archivo CSV con la topología de la red.
+     * @param grafo Instancia del grafo neuronal a configurar.
+     * @param diccionarioNT Diccionario que contiene los neurotransmisores necesarios para la conexión.
+     * @return true si la red se cargó y conectó exitosamente, false en caso de error.
      */
+    
+    
     public static boolean cargarRedNeuronal(String rutaArchivo, GrafoNeuronal grafo, DiccionarioHash diccionarioNT) {
         String linea;
         String separador = ",";

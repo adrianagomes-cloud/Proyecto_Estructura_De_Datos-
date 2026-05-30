@@ -1,12 +1,19 @@
 /**
  * Clase encargada de ejecutar los análisis topológicos y matemáticos sobre el grafo.
+ * Contiene la lógica para la detección de conectividad y la simulación del deterioro sináptico.
  */
 public class AnalizadorAlgoritmico {
 
-    /**
-     * Detecta qué neuronas son "inalcanzables" (zonas aisladas).
-     * Utiliza un recorrido de búsqueda en anchura (BFS) adaptado de forma manual.
+   /**
+     * Detecta qué neuronas son "inalcanzables" (zonas aisladas) desde un punto de partida.
+     * Utiliza un recorrido de búsqueda en anchura (BFS) manual para identificar los nodos 
+     * no visitados dentro del sistema.
+     * * @param grafo La estructura de red neuronal sobre la cual realizar el análisis.
+     * @param idOrigen El ID de la neurona desde donde comienza la exploración de conectividad.
+     * @return Una Lista de objetos Neurona que no tienen conexión (directa o indirecta) con el origen.
      */
+    
+    
     public Lista<Neurona> detectarZonasAisladas(GrafoNeuronal grafo, String idOrigen) {
         Lista<Neurona> todasLasNeuronas = grafo.getNeuronas();
         Lista<Neurona> visitadas = new Lista<>();
